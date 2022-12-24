@@ -12,13 +12,13 @@ const IntegrationsSchema = z.array(IntegrationSchema)
 
 
 export default function useIntegrations () {
-    const { data } = useSWR('/api/integrations', fetcher)
-    console.log(`DATA ${data}`)
+    const { data, isLoading, error } = useSWR('/api/integrations', fetcher)
     const result = IntegrationsSchema.safeParse(data)
 
-    if (result.success) {
-        return result.data
-    } else {
-        console.log("Validation error")
+
+    return {
+        integrations: result.success ? result.data : null,
+        isLoading,
+        isError: error,
     }
 }
