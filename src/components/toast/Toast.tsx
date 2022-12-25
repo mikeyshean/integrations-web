@@ -1,20 +1,24 @@
 import { Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/20/solid'
-import { Fragment, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 
 
 export default function Toast({ message }: { message: string }) {
-    const [show, setShow] = useState(true)
-    
+    const [show, setShow] = useState(false)
+    useEffect(() => {
+      if (!show) {
+        setShow(true)
+      }
+    }, [message])
     return (
         <>
           <Transition
             show={show}
             as={Fragment}
-            enter="transform ease-out duration-300 transition"
+            enter="transform ease-out duration-700 transition"
             enterFrom="translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-2"
             enterTo="translate-y-0 opacity-100 sm:translate-x-0"
-            leave="transition ease-in duration-100"
+            leave="transition ease-in duration-150"
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
@@ -25,7 +29,7 @@ export default function Toast({ message }: { message: string }) {
                     <p className="w-0 flex-1 text-sm font-medium text-gray-900">{message}</p>
                     <button
                       type="button"
-                      className="ml-3 flex-shrink-0 rounded-md bg-white text-sm font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                      className="hidden ml-3 flex-shrink-0 rounded-md bg-white text-sm font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                     >
                       Undo
                     </button>
