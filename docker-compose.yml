@@ -7,9 +7,9 @@ services:
     image: web:react
     container_name: react_container
     volumes:
-      - ./src/pages:/app/src/pages
       - ./public:/app/public
       - ./src/styles:/app/src/styles
+      - ./src/app:/app/src/app
     networks:
       - backend_network
 networks:

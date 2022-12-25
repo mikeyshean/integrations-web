@@ -1,7 +1,6 @@
 import useSWR from 'swr'
 import fetcher from './fetcher'
 import { z } from "zod";
-import Integration from '../pages/integrations/[id]';
 
 const IntegrationSchema = z.object({
     id: z.number(),

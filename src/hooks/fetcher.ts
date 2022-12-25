@@ -1,6 +1,3 @@
-import { toast } from 'react-toastify';
-
-
 const API_HOST = process.env.API_HOST || ''
 const API_TOKEN = process.env.API_TOKEN
 
@@ -22,11 +19,9 @@ export default function fetcher<JSON = any>(
             switch (response.status) {
                 case 500:
                     console.log('Internal server error');
-                    toast.error("Internal server error")
                     break;
                 case 401:
                     console.log('Session expired');
-                    toast.error("Session expired")
                     break;
                 default:
                     console.log('Some error occured');
@@ -36,6 +31,5 @@ export default function fetcher<JSON = any>(
     })
     .catch(error => {
         console.log(error);
-        toast.error("Network error")
     });
 } 
