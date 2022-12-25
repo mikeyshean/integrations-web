@@ -35,4 +35,4 @@ function ToastProvider({children}: {
     );
   };
   
-  export {useToast, ToastProvider, useToastContext}
+  export {ToastProvider, useToast, useToastContext}

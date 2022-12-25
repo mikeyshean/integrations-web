@@ -1,6 +1,6 @@
 "use client"
 import { Fragment, useContext, useEffect, useState } from 'react'
-import { useToastContext } from '../../context/toast'
+import { useToastContext } from '@/context/toast'
 import Toast from './Toast'
 
 export default function ToastContainer() {

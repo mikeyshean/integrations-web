@@ -1,5 +1,5 @@
 "use client"
-import { useToast } from '../../context/toast'
+import { useToast } from '@/context/toast'
 
 export default function IntegrationsPage() {
     const addToast = useToast()

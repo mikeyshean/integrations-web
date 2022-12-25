@@ -1,6 +1,6 @@
 "use client"
-import ToastContainer from '../../components/toast/ToastContainer'
-import { ToastProvider } from '../../context/toast'
+import ToastContainer from '@/components/toast/ToastContainer'
+import { ToastProvider } from '@/context/toast'
 import { useState } from 'react';
 
 
