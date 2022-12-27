@@ -3,6 +3,7 @@ import React, { createContext, useState, useEffect, useContext } from 'react'
 import jwt_decode from 'jwt-decode'
 import { useRouter } from 'next/navigation'
 
+const API_HOST = process.env.API_HOST
 
 type LoginEvent = {
     username: { value: string },
@@ -66,7 +67,7 @@ function AuthProvider({children}: {children: React.ReactNode}) {
         e.preventDefault()
         console.log("logging in")
         const target = e.target as unknown as LoginEvent
-        const response = await fetch('http://localhost:8000/api/token/', {
+        const response = await fetch(`${API_HOST}/api/token/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
