@@ -1,20 +1,20 @@
 "use client"
 import ToastContainer from '@/components/toast/ToastContainer'
-import { ToastProvider } from '@/context/toast'
-import { useState } from 'react';
+import { PrivateRoute } from '@/context/AuthContext';
+import { ToastProvider } from '@/context/ToastContext'
 
 
 export default function IntegrationsLayout({children}: {
     children: React.ReactNode;
 }) {
-    const [toasts] = useState([])
-
     return (
-        <div>
+        // <div>
+        <PrivateRoute>
             <ToastProvider>
                 <div>{children}</div>
                 <ToastContainer />
             </ToastProvider>
-        </div>
+        </PrivateRoute>
+        // </div>
     );
 }

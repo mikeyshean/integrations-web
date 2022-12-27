@@ -19,11 +19,11 @@ function useToast() {
 function ToastProvider({children}: {
     children: React.ReactNode;
 }) {
-    const [toasts, setToastList] = useState<Toast[]>([]);
+    const [toasts, setToasts] = useState<Toast[]>([]);
 
     function addToast(toast: Toast) {
         console.log(toast)
-        setToastList([...toasts, toast])
+        setToasts([...toasts, toast])
     }
   
     return (
@@ -35,4 +35,4 @@ function ToastProvider({children}: {
     );
   };
   
-  export {ToastProvider, useToast, useToastContext}
+  export { useToast, useToastContext, ToastProvider }

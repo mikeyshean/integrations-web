@@ -1,5 +1,5 @@
 "use client"
-import { useToast } from '@/context/toast'
+import { useToast } from '@/context/ToastContext'
 import useIntegrations from 'hooks/useIntegrations'
 
 export default function IntegrationsPage() {
@@ -17,7 +17,7 @@ export default function IntegrationsPage() {
             {
                 integrations && integrations.map((integration, idx) => {
                     return (
-                        <div key={idx} className="text-blue-500 text-lg">
+                        <div key={idx} className="text-blue-500 text-3xl">
                             {integration.name}
                         </div>
                     )
