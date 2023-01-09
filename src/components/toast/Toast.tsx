@@ -9,7 +9,7 @@ export default function Toast({ message }: { message: string }) {
       if (!show) {
         setShow(true)
       }
-    }, [message])
+    }, [])
     return (
         <>
           <Transition

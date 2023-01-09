@@ -1,17 +1,18 @@
 "use client"
 import '../styles/globals.css'
-import Header from '@/components/Header'
+import Navbar from '@/components/Navbar'
 import { AuthProvider } from '@/context/AuthContext';
 
 
 export default function RootLayout({children}: {
     children: React.ReactNode;
 }) {
+
     return (
-        <html lang="en">
-            <body>
+        <html className="h-full bg-white">
+            <body className="h-full overflow-hidden">
                 <AuthProvider>
-                    <Header />
+                    <Navbar />
                     {children}
                 </AuthProvider>
             </body>
