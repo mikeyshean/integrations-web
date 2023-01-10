@@ -2,36 +2,36 @@
 import React, { createContext, useContext, useState } from 'react';
 
 type Toast = {
-    message: string
+  message: string
 }
 
 const ToastContext = createContext<Toast[]>([]);
 const AddToastContext = createContext(({}:Toast)=>{})
 
 function useToastContext() {
-    return useContext(ToastContext)
+  return useContext(ToastContext)
 }
 
 function useToast() {
-    return useContext(AddToastContext)
+  return useContext(AddToastContext)
 }
 
 function ToastProvider({children}: {
     children: React.ReactNode;
 }) {
-    const [toasts, setToasts] = useState<Toast[]>([]);
+  const [toasts, setToasts] = useState<Toast[]>([]);
 
-    function addToast(toast: Toast) {
-        setToasts([...toasts, toast])
-    }
+  function addToast(toast: Toast) {
+    setToasts([...toasts, toast])
+  }
+
+  return (
+    <ToastContext.Provider value={ toasts }>
+        <AddToastContext.Provider value={addToast}>
+            {children}
+        </AddToastContext.Provider>
+    </ToastContext.Provider>
+  );
+};
   
-    return (
-        <ToastContext.Provider value={ toasts }>
-            <AddToastContext.Provider value={addToast}>
-                {children}
-            </AddToastContext.Provider>
-        </ToastContext.Provider>
-    );
-  };
-  
-  export { useToast, useToastContext, ToastProvider }
+export { useToast, useToastContext, ToastProvider }

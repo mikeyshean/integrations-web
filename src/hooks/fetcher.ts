@@ -8,7 +8,6 @@ export default async function fetcher<JSON = any>(
 ) {
   const url = API_HOST + input
   try {
-    
     const response = await fetch(url, {
       headers: {
         'Content-type': 'application/json',
@@ -17,7 +16,7 @@ export default async function fetcher<JSON = any>(
     })
 
     if (response.ok) {
-      return response.json()
+      return await response.json()
     } else {
       switch (response.status) {
         case 500:
@@ -27,7 +26,7 @@ export default async function fetcher<JSON = any>(
           console.log('Session expired');
           break;
         default:
-          console.log('Some error occured');
+          console.log('Unknown error occured');
           break;
       }
     }

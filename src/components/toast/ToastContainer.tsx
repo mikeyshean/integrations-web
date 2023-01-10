@@ -7,7 +7,7 @@ export default function ToastContainer() {
   const toasts = useToastContext()
 
   return (
-      <>
+    <>
       <div
         aria-live="assertive"
         className="pointer-events-none fixed inset-0 flex items-end px-4 py-6 sm:items-start sm:p-6"
