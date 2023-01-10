@@ -2,6 +2,7 @@ import { SyntheticEvent, useState } from "react"
 import mapperImage from "../../images/logos/apimapper.png"
 import Image from "next/image"
 import { Loading } from "../Loading"
+import { Button } from "../Button"
 
 
 export default function Login({ loginHandler }: { loginHandler: (username: string, password: string) => {}}) {
@@ -90,15 +91,7 @@ export default function Login({ loginHandler }: { loginHandler: (username: strin
                     </div>
                   </div>
                   <div>
-                    <button
-                      type="submit"
-                      onClick={loginDemoUser}
-                      className="disabled flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                    >
-                    {
-                     isLoading ? <Loading /> : "Sign In with Demo Account"
-                    }
-                    </button>
+                    <Button onClick={loginDemoUser} isLoading={isLoading} buttonText="Sign in with Demo Account"/>
                   </div>
                 </form>
               </div>
