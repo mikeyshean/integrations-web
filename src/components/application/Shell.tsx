@@ -12,9 +12,11 @@ import Image from 'next/image'
 import IntegrationsTable from './IntegrationsTable'
 import { useAuthContext } from '@/context/AuthContext'
 import AppHome from './Home'
+import { Models } from './Models'
 
 const sidebarNavigation = [
   { name: 'Integrations', href: '#', icon: Squares2X2Icon, current: false, component: IntegrationsTable },
+  { name: 'Models', href: '#', icon: Squares2X2Icon, current: false, component: IntegrationsTable },
   { name: 'Mapper', href: '#', icon: WrenchScrewdriverIcon, current: true },
   { name: 'Test', href: '#', icon: BeakerIcon, current: false },
   { name: 'Sign out', href: '#', icon: ArrowLeftOnRectangleIcon, current: false },
@@ -26,7 +28,7 @@ function classNames(...classes: string[]) {
 
 export default function Shell() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const [currentTab, setCurrentTab] = useState('')
+  const [currentTab, setCurrentTab] = useState('Home')
   const { logoutUser } = useAuthContext()
 
   useEffect(() => {
@@ -53,7 +55,7 @@ export default function Shell() {
                    currentTab == "Home" ? 'bg-indigo-800 text-white' : 'text-indigo-100 hover:bg-indigo-800 hover:text-white',
                     'group w-full p-3 rounded-md flex flex-col items-center text-xs font-medium'
                   )}>
-                <Image src={mapperImage} alt="API Mapper" height={50}  onClick={() => { setCurrentTab("Home") }}/>
+                <Image src={mapperImage} priority alt="API Mapper" height={50}  onClick={() => { setCurrentTab("Home") }}/>
               </button>
             </div>
             <div className="mt-6 w-full flex-1 space-y-1 px-2">
@@ -185,6 +187,7 @@ export default function Shell() {
                 </h1>
                 { currentTab == "Integrations" && <IntegrationsTable />}
                 { currentTab == "Home" && <AppHome />}
+                { currentTab == "Models" && <Models />}
               </section>
             </main>
 
