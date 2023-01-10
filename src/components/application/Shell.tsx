@@ -11,6 +11,7 @@ import mapperImage from "../../images/logos/apimapper.png"
 import Image from 'next/image'
 import IntegrationsTable from './IntegrationsTable'
 import { useAuthContext } from '@/context/AuthContext'
+import AppHome from './Home'
 
 const sidebarNavigation = [
   { name: 'Integrations', href: '#', icon: Squares2X2Icon, current: false, component: IntegrationsTable },
@@ -47,8 +48,13 @@ export default function Shell() {
         {/* Narrow sidebar */}
         <div className="hidden w-28 overflow-y-auto bg-indigo-700 md:block">
           <div className="flex w-full flex-col items-center py-6">
-            <div className="flex flex-shrink-0 items-center">
-              <Image src={mapperImage} alt="API Mapper" height={50}/>
+            <div className="w-full flex-1 space-y-1 px-2">
+              <button className={classNames(
+                   currentTab == "Home" ? 'bg-indigo-800 text-white' : 'text-indigo-100 hover:bg-indigo-800 hover:text-white',
+                    'group w-full p-3 rounded-md flex flex-col items-center text-xs font-medium'
+                  )}>
+                <Image src={mapperImage} alt="API Mapper" height={50}  onClick={() => { setCurrentTab("Home") }}/>
+              </button>
             </div>
             <div className="mt-6 w-full flex-1 space-y-1 px-2">
               {sidebarNavigation.map((item) => (
@@ -177,8 +183,8 @@ export default function Shell() {
                 <h1 id="primary-heading" className="sr-only">
                   Photos
                 </h1>
-                {/* Your content */}
                 { currentTab == "Integrations" && <IntegrationsTable />}
+                { currentTab == "Home" && <AppHome />}
               </section>
             </main>
 
