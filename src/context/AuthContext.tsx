@@ -55,7 +55,6 @@ function AuthProvider({children}: {children: React.ReactNode}) {
 
     async function loginUser(e: React.SyntheticEvent<Element, Event>) {
         e.preventDefault()
-        console.log("logging in")
         const target = e.target as unknown as LoginEvent
         const response = await fetch(`${API_HOST}/api/token/`, {
             method: 'POST',
@@ -70,7 +69,6 @@ function AuthProvider({children}: {children: React.ReactNode}) {
         const data: {refresh: string, access: string } = await response.json()
         
         if (response.status === 200) {
-            console.log("login successful.. redirecting to /")
             const user = jwt_decode(data.access) as AuthUser
             setAuthToken({token: data, first_name: user.first_name})
             setCookie(JWT_KEY, JSON.stringify(data), { expires: 7 })
@@ -86,11 +84,9 @@ function AuthProvider({children}: {children: React.ReactNode}) {
     }
 
     useEffect(() => {
-        console.log("AuthProvider useEffect")
         const storedToken = getCookie(JWT_KEY) ?  JSON.parse(getCookie(JWT_KEY) as string) : ''
         const firstName = storedToken ? (jwt_decode(storedToken.access) as AuthUser).first_name : ''
         if (storedToken) {
-            console.log(`setAuthToken with ${storedToken}`)
             setAuthToken({token: storedToken, first_name: firstName})
         }
 

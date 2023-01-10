@@ -22,7 +22,6 @@ function ToastProvider({children}: {
     const [toasts, setToasts] = useState<Toast[]>([]);
 
     function addToast(toast: Toast) {
-        console.log(toast)
         setToasts([...toasts, toast])
     }
   
