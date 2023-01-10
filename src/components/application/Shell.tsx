@@ -10,6 +10,7 @@ import {
 import mapperImage from "../../images/logos/apimapper.png"
 import Image from 'next/image'
 import IntegrationsTable from './IntegrationsTable'
+import { useAuthContext } from '@/context/AuthContext'
 
 const sidebarNavigation = [
   { name: 'Integrations', href: '#', icon: Squares2X2Icon, current: false, component: IntegrationsTable },
@@ -25,8 +26,12 @@ function classNames(...classes: string[]) {
 export default function Shell() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [currentTab, setCurrentTab] = useState('')
+  const { logoutUser } = useAuthContext()
 
   useEffect(() => {
+    if (currentTab == "Sign out") {
+      logoutUser()
+    }
     sidebarNavigation.forEach((tab) => {
       if (tab.name === currentTab) {
         tab.current = true
@@ -47,9 +52,8 @@ export default function Shell() {
             </div>
             <div className="mt-6 w-full flex-1 space-y-1 px-2">
               {sidebarNavigation.map((item) => (
-                <a
+                <button
                   key={item.name}
-                  // href={item.href}
                   onClick={() => { setCurrentTab(item.name) }}
                   className={classNames(
                     item.name == currentTab ? 'bg-indigo-800 text-white' : 'text-indigo-100 hover:bg-indigo-800 hover:text-white',
@@ -65,7 +69,7 @@ export default function Shell() {
                     aria-hidden="true"
                   />
                   <span className="mt-2">{item.name}</span>
-                </a>
+                </button>
               ))}
             </div>
           </div>
@@ -174,7 +178,7 @@ export default function Shell() {
                   Photos
                 </h1>
                 {/* Your content */}
-                <IntegrationsTable />
+                { currentTab == "Integrations" && <IntegrationsTable />}
               </section>
             </main>
 

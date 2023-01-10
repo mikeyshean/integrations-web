@@ -6,6 +6,6 @@ export default function LoginPage() {
     const { loginUser } = useAuthContext()
 
     return (
-        <Login onSubmit={loginUser} />
+        <Login loginHandler={loginUser} />
     )
 }

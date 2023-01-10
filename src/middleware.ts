@@ -8,6 +8,10 @@ export default function middleware(req: NextRequest) {
     return NextResponse.redirect(`${process.env.MY_SITE}/login`)
   }
 
+  if (!verify && url === `${process.env.MY_SITE}/`) {
+    return NextResponse.redirect(`${process.env.MY_SITE}/login`)
+  }
+
   if (verify && url === `${process.env.MY_SITE}/`) {
     return NextResponse.redirect(`${process.env.MY_SITE}/mapper`)
   }

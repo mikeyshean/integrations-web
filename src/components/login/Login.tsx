@@ -4,12 +4,23 @@ import Image from "next/image"
 import { Loading } from "../Loading"
 
 
-export default function Login({ onSubmit }: { onSubmit: (e: SyntheticEvent<Element, Event>) => {}}) {
+export default function Login({ loginHandler }: { loginHandler: (username: string, password: string) => {}}) {
   const [isLoading, setIsLoading] = useState(false)
+  const [username, setUsername] = useState("")
+  const [password, setPassword] = useState("")
 
-  const loginHandler = (e: SyntheticEvent<Element, Event>) => {
+
+  // const onSubmit = (e: SyntheticEvent<Element, Event>) => {
+  //   setIsLoading(true)
+  //   loginHandler(e)
+  // }
+
+  const loginDemoUser = (e: SyntheticEvent<Element, Event>) => {
+    e.preventDefault()
     setIsLoading(true)
-    onSubmit(e)
+    setUsername("demo")
+    setPassword("welcome2demo")
+    loginHandler("demo", "welcome2demo")
   }
   return (
     <>
@@ -24,10 +35,10 @@ export default function Login({ onSubmit }: { onSubmit: (e: SyntheticEvent<Eleme
 
             <div className="mt-8">
               <div className="mt-6">
-                <form action="#" onSubmit={loginHandler} method="POST" className="space-y-6">
+                <form action="#" method="POST" className="space-y-6">
                   <div>
                     <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                      Email address
+                      Username
                     </label>
                     <div className="mt-1">
                       <input
@@ -36,6 +47,7 @@ export default function Login({ onSubmit }: { onSubmit: (e: SyntheticEvent<Eleme
                         // type="email"
                         autoComplete="email"
                         required
+                        defaultValue={username}
                         className="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                       />
                     </div>
@@ -52,6 +64,7 @@ export default function Login({ onSubmit }: { onSubmit: (e: SyntheticEvent<Eleme
                         type="password"
                         autoComplete="current-password"
                         required
+                        defaultValue={password}
                         className="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                       />
                     </div>
@@ -76,14 +89,14 @@ export default function Login({ onSubmit }: { onSubmit: (e: SyntheticEvent<Eleme
                       </a>
                     </div>
                   </div>
-
                   <div>
                     <button
                       type="submit"
+                      onClick={loginDemoUser}
                       className="disabled flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                     >
                     {
-                     isLoading ? <Loading isLoading={isLoading} /> : "Sign In"
+                     isLoading ? <Loading /> : "Sign In with Demo Account"
                     }
                     </button>
                   </div>
