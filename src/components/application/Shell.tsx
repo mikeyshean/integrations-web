@@ -42,15 +42,15 @@ export default function Shell() {
         tab.current = false
       }
     })
-  }, [currentTab])
+  }, [currentTab, logoutUser])
 
   return (
     <>
       <div className="flex h-full">
         {/* Narrow sidebar */}
         <div className="hidden w-28 overflow-y-auto bg-indigo-700 md:block">
-          <div className="flex w-full flex-col items-center py-6">
-            <div className="w-full flex-1 space-y-1 px-2">
+          <div className="flex w-full h-full flex-col items-center py-6">
+            <div className="w-full space-y-1 px-2">
               <button className={classNames(
                    currentTab == "Home" ? 'bg-indigo-800 text-white' : 'text-indigo-100 hover:bg-indigo-800 hover:text-white',
                     'group w-full p-3 rounded-md flex flex-col items-center text-xs font-medium'
@@ -58,26 +58,31 @@ export default function Shell() {
                 <Image src={mapperImage} priority alt="API Mapper" height={50}  onClick={() => { setCurrentTab("Home") }}/>
               </button>
             </div>
-            <div className="mt-6 w-full flex-1 space-y-1 px-2">
-              {sidebarNavigation.map((item) => (
-                <button
-                  key={item.name}
-                  onClick={() => { setCurrentTab(item.name) }}
-                  className={classNames(
-                    item.name == currentTab ? 'bg-indigo-800 text-white' : 'text-indigo-100 hover:bg-indigo-800 hover:text-white',
-                    'group w-full p-3 rounded-md flex flex-col items-center text-xs font-medium'
-                  )}
-                  aria-current={item.name == currentTab ? 'page' : undefined}
-                >
-                  <item.icon
+
+            {/* Sidebar Navigation */}
+
+            <div className="mt-6 w-full flex flex-col h-full space-y-1 px-2">
+              {sidebarNavigation.map((item, itemIdx) => (
+                <div className={itemIdx == sidebarNavigation.length - 2 ? "flex-grow" : ""}>
+                  <button
+                    key={item.name}
+                    onClick={() => { setCurrentTab(item.name) }}
                     className={classNames(
-                      item.name == currentTab ? 'text-white' : 'text-indigo-300 group-hover:text-white',
-                      'h-6 w-6'
+                      item.name == currentTab ? 'bg-indigo-800 text-white' : 'text-indigo-100 hover:bg-indigo-800 hover:text-white',
+                      'group w-full p-3 rounded-md flex flex-col items-center text-xs font-medium'
                     )}
-                    aria-hidden="true"
-                  />
-                  <span className="mt-2">{item.name}</span>
-                </button>
+                    aria-current={item.name == currentTab ? 'page' : undefined}
+                  >
+                    <item.icon
+                      className={classNames(
+                        item.name == currentTab ? 'text-white' : 'text-indigo-300 group-hover:text-white',
+                        'h-6 w-6'
+                      )}
+                      aria-hidden="true"
+                    />
+                    <span className="mt-2">{item.name}</span>
+                  </button>
+                </div>
               ))}
             </div>
           </div>
@@ -130,11 +135,7 @@ export default function Shell() {
                     </div>
                   </Transition.Child>
                   <div className="flex flex-shrink-0 items-center px-4">
-                    <img
-                      className="h-8 w-auto"
-                      src="https://tailwindui.com/img/logos/mark.svg?color=white"
-                      alt="Your Company"
-                    />
+                    <Image src={mapperImage} priority alt="API Mapper" height={50}  onClick={() => { setCurrentTab("Home") }}/>
                   </div>
                   <div className="mt-5 h-0 flex-1 overflow-y-auto px-2">
                     <nav className="flex h-full flex-col">
