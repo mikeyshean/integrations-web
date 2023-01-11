@@ -6,7 +6,7 @@ function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
 }
 
-export default function IntegrationsTable() {
+export default function IntegrationsPage() {
   const { data: integrations } = api.integrations.useList()
   const [showModal, setShowModal] = useState(false)
   
@@ -19,9 +19,9 @@ export default function IntegrationsTable() {
       <CreateIntegrationModal show={showModal} toggleModal={toggleModal} />
       <div className="sm:flex sm:items-center">
         <div className="sm:flex-auto">
-          <h1 className="text-xl font-semibold text-gray-900">Integrations</h1>
+          <h1 className="text-2xl font-semibold text-gray-900">Integrations</h1>
           <p className="mt-2 text-sm text-gray-700">
-            List of all the integrations.
+            List of all integrations.  <br/>Each one can have many endpoints, and each endpoint can have a defined model.
           </p>
         </div>
         <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">

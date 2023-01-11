@@ -71,9 +71,9 @@ export default function CreateIntegrationModal({ show, toggleModal }: { show: bo
               "block w-full rounded-md sm:text-sm", 
               isNameValid ? "border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" : "border-red-300 pr-10 text-red-900 placeholder-red-300 focus:border-red-500 focus:outline-none focus:ring-red-500",
             )}
-            placeholder="Integration name"
+            placeholder="MyIntegration"
             aria-invalid="true"
-            aria-describedby="email-error"
+            aria-describedby="name-error"
             value={nameValue}
             onChange={(e) => handleOnChange(e.target.value)}
           />
@@ -85,7 +85,7 @@ export default function CreateIntegrationModal({ show, toggleModal }: { show: bo
         </div>
         {!isNameValid && 
           <p className="mt-2 text-sm text-red-600" id="email-error">
-            Integration name cannot be blank
+            Integration name is required.
           </p>
         }
       </div>

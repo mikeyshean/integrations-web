@@ -9,14 +9,14 @@ import {
 } from '@heroicons/react/24/outline'
 import mapperImage from "../../images/logos/apimapper.png"
 import Image from 'next/image'
-import IntegrationsTable from './integrations/IntegrationsTable'
+import IntegrationsPage from './integrations'
 import { useAuthContext } from '@/context/AuthContext'
 import AppHome from './Home'
-import { Models } from './Models'
+import { ModelsPage } from './models'
 
 const sidebarNavigation = [
-  { name: 'Integrations', href: '#', icon: Squares2X2Icon, current: false, component: IntegrationsTable },
-  { name: 'Models', href: '#', icon: Squares2X2Icon, current: false, component: IntegrationsTable },
+  { name: 'Integrations', href: '#', icon: Squares2X2Icon, current: false },
+  { name: 'Models', href: '#', icon: Squares2X2Icon, current: false },
   { name: 'Mapper', href: '#', icon: WrenchScrewdriverIcon, current: true },
   { name: 'Test', href: '#', icon: BeakerIcon, current: false },
   { name: 'Sign out', href: '#', icon: ArrowLeftOnRectangleIcon, current: false },
@@ -185,16 +185,16 @@ export default function Shell() {
                 <h1 id="primary-heading" className="sr-only">
                   Photos
                 </h1>
-                { currentTab == "Integrations" && <IntegrationsTable />}
+                { currentTab == "Integrations" && <IntegrationsPage />}
                 { currentTab == "Home" && <AppHome />}
-                { currentTab == "Models" && <Models />}
+                { currentTab == "Models" && <ModelsPage />}
               </section>
             </main>
 
             {/* Secondary column (hidden on smaller screens) */}
-            <aside className="hidden w-96 overflow-y-auto border-l border-gray-200 bg-white lg:block">
+            {/* <aside className="hidden w-96 overflow-y-auto border-l border-gray-200 bg-white lg:block"> */}
               {/* Your content */}
-            </aside>
+            {/* </aside> */}
           </div>
         </div>
       </div>
