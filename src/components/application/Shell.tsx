@@ -9,7 +9,7 @@ import {
 } from '@heroicons/react/24/outline'
 import mapperImage from "../../images/logos/apimapper.png"
 import Image from 'next/image'
-import IntegrationsTable from './IntegrationsTable'
+import IntegrationsTable from './integrations/IntegrationsTable'
 import { useAuthContext } from '@/context/AuthContext'
 import AppHome from './Home'
 import { Models } from './Models'

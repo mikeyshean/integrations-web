@@ -1,4 +1,6 @@
 import { api } from '@/api'
+import { useState } from 'react'
+import CreateIntegrationModal from './CreateIntegrationModal'
 
 
 const integrations = [
@@ -16,9 +18,15 @@ type Category = {
 
 export default function IntegrationsTable() {
   const { data: integrations } = api.integrations.list()
+  const [showModal, setShowModal] = useState(false)
+  
+  function toggleModal() {
+    setShowModal(!showModal)
+  }
 
   return (
     <div className="px-4 sm:px-6 lg:px-8">
+      <CreateIntegrationModal show={showModal} toggleModal={toggleModal} />
       <div className="sm:flex sm:items-center">
         <div className="sm:flex-auto">
           <h1 className="text-xl font-semibold text-gray-900">Integrations</h1>
@@ -29,6 +37,7 @@ export default function IntegrationsTable() {
         <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
           <button
             type="button"
+            onClick={() => {setShowModal(true)}}
             className="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto"
           >
             Add integration
