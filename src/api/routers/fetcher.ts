@@ -1,18 +1,31 @@
+import { z } from 'zod'
+
 const API_HOST = process.env.API_HOST || ''
 const API_TOKEN = process.env.API_TOKEN
 
 
-export default async function fetcher(
+export async function fetcher(
   input: RequestInfo,
-  _init?: RequestInit
+  {
+    method,
+    data
+  }: {
+    method: "POST" | "GET" | "PUT",
+    data: string | object | null
+  } = {method: "GET", data: null}
 ) {
   const url = API_HOST + input
   try {
+    if (data && typeof data === "object") {
+      data = JSON.stringify(data)
+    }
     const response = await fetch(url, {
       headers: {
         'Content-type': 'application/json',
         'Authorization': `Token ${API_TOKEN}`,
-      }
+      },
+      method: method,
+      body: data
     })
 
     if (response.ok) {

@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import { Button } from "../Button";
-import { JSONEditor } from "./JsonEditor/JsonEditor";
+import { JSONEditor } from "./json-editor/JsonEditor";
 
 export function Models() {
   const jsonRef = useRef<string>('')
@@ -32,7 +32,6 @@ export function Models() {
         </div>
         <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
           <Button buttonText="Create Model from JSON" isLoading={isLoading} onClick={handleCreateModel} isDisabled={!isValidJson}/>
-
         </div>
       </div>
       <div className="pt-10">

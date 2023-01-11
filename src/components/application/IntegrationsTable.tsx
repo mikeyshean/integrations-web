@@ -1,4 +1,4 @@
-import useIntegrations from 'hooks/useIntegrations'
+import { api } from '@/api'
 
 
 const integrations = [
@@ -15,7 +15,7 @@ type Category = {
 }
 
 export default function IntegrationsTable() {
-  const { integrations } = useIntegrations()
+  const { data: integrations } = api.integrations.list()
 
   return (
     <div className="px-4 sm:px-6 lg:px-8">
