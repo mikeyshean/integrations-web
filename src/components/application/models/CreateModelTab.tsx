@@ -26,7 +26,7 @@ export default function CreateModelTab() {
   const [isNameValid, setIsNameValid] = useState(true)
   const jsonRef = useRef<string>('')
   const [isLoading, setIsLoading] = useState(false)
-  const [isValidJson, setIsValidJson] = useState(false)
+  const [isValidJson, setIsValidJson] = useState(true)
 
   const updateJsonRef = (json: string) => {
     jsonRef.current = json
@@ -99,7 +99,7 @@ export default function CreateModelTab() {
             <p className="mt-1 text-sm text-gray-500">Define a new model by providing a sample of the JSON payload.  We&apos;ll parse the types and get it ready for the next step, <b>Mapping</b>.</p>
           </div>
           <div className="mt-5 md:col-span-2 md:mt-0">
-            <div className="grid grid-cols-6 gap-6 overflow-scroll">
+            <div className="grid grid-cols-6 gap-6 overflow-auto">
               {/* Integration */}
 
               <Listbox value={selectedIntegration} onChange={setSelectedIntegration}>
@@ -239,7 +239,7 @@ export default function CreateModelTab() {
                       "block w-full rounded-md sm:text-sm", 
                       isNameValid ? "border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" : "border-red-300 pr-10 text-red-900 placeholder-red-300 focus:border-red-500 focus:outline-none focus:ring-red-500",
                     )}
-                    placeholder="The model returned from the API (ex. Employee, Company, Ticket)"
+                    placeholder="ex. Employee, Company, Ticket - The model returned from the API"
                     aria-invalid="true"
                     aria-describedby="name-error"
                     value={modelName}
@@ -258,23 +258,32 @@ export default function CreateModelTab() {
                 }
               </div>
               <div className="col-span-12 sm:col-span-6 relative">
-                <label htmlFor="json-data" className="text-sm font-medium text-gray-700 pb-1">
-                  JSON Payload 
+                <div className='flex'>
+                  <label htmlFor="json-data" className="text-sm font-medium text-gray-700">
+                    JSON Payload 
+                  </label>
+                  <div className={classNames(
+                    isValidJson ? 'hidden' : '',
+                    'ml-10 relative'
+                    )}>
+                      <div className="pointer-events-none absolute -inset-x-5 flex items-center">
+                        <ExclamationCircleIcon className="h-5 w-5 text-red-500" aria-hidden="true" />
+                      </div>
+                      <p className="text-sm text-red-600 pl-1" id="email-error">
+                        Invalid JSON format
+                      </p>
+                  </div>
 
-                </label>
-                <div className='inline-block float-right mr-16'>
-                    <div className="pointer-events-none inline-block relative top-1">
-                      <ExclamationCircleIcon className="h-5 w-5 text-red-500 align-center top-4 mr-1" aria-hidden="true" />
-                    </div>
-                    Invalid format
                 </div>
-                <JSONEditor updateJsonRef={updateJsonRef} updateIsValidJson={updateIsValidJson} />
+                <div className='pt-2'>
+                  <JSONEditor updateJsonRef={updateJsonRef} updateIsValidJson={updateIsValidJson} />
+                </div>
               </div>
+            </div>
+
+            <div className="flex justify-end pt-4">
               <div className="col-span-6 sm:col-span-3">
-                
-              </div>
-              <div className="col-span-6 sm:col-span-3 pr-14">
-                <Button buttonText="Create Model from JSON" isLoading={isLoading} onClick={handleCreate} isDisabled={!isValidJson} />
+                <Button buttonText="Save Model" isLoading={isLoading} onClick={handleCreate} isDisabled={!isValidJson} />
               </div>
             </div>
           </div>

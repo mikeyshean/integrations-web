@@ -3,6 +3,7 @@ import mapperImage from "../../images/logos/apimapper.png"
 import Image from "next/image"
 import { Loading } from "../Loading"
 import { Button } from "../Button"
+import Link from "next/link"
 
 
 export default function Login({ loginHandler }: { loginHandler: (username: string, password: string) => {}}) {
@@ -85,9 +86,9 @@ export default function Login({ loginHandler }: { loginHandler: (username: strin
                     </div>
 
                     <div className="text-sm">
-                      <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">
+                      <Link href="#" className="font-medium text-indigo-600 hover:text-indigo-500">
                         Forgot your password?
-                      </a>
+                      </Link>
                     </div>
                   </div>
                   <div>

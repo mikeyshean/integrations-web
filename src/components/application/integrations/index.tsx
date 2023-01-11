@@ -1,4 +1,5 @@
 import { api } from '@/api'
+import Link from 'next/link'
 import { useState } from 'react'
 import CreateIntegrationModal from './CreateIntegrationModal'
 
@@ -114,9 +115,9 @@ export default function IntegrationsPage() {
                           'relative whitespace-nowrap py-4 pr-4 pl-3 text-right text-sm font-medium sm:pr-6 lg:pr-8'
                         )}
                       >
-                        <a href="#" className="text-indigo-600 hover:text-indigo-900">
+                        <Link href="#" className="text-indigo-600 hover:text-indigo-900">
                           Edit<span className="sr-only">, {integration.name}</span>
-                        </a>
+                        </Link>
                       </td>
                     </tr>
                   ))}

@@ -63,9 +63,8 @@ export default function Shell() {
 
             <div className="mt-6 w-full flex flex-col h-full space-y-1 px-2">
               {sidebarNavigation.map((item, itemIdx) => (
-                <div className={itemIdx == sidebarNavigation.length - 2 ? "flex-grow" : ""}>
+                <div key={item.name} className={itemIdx == sidebarNavigation.length - 2 ? "flex-grow" : ""}>
                   <button
-                    key={item.name}
                     onClick={() => { setCurrentTab(item.name) }}
                     className={classNames(
                       item.name == currentTab ? 'bg-indigo-800 text-white' : 'text-indigo-100 hover:bg-indigo-800 hover:text-white',
