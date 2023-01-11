@@ -35,7 +35,7 @@ function AuthProvider({children}: {children: React.ReactNode}) {
       
     if (response.status === 200) {
       setCookie(JWT_KEY, JSON.stringify(data), { expires: 7 })
-      router.push("/mapper")
+      router.push("/app")
     } else {
       alert('Oops.. Something went wrong..')
     }

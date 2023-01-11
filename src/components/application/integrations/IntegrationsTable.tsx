@@ -2,18 +2,8 @@ import { api } from '@/api'
 import { useState } from 'react'
 import CreateIntegrationModal from './CreateIntegrationModal'
 
-
-const integrations = [
-  { id: "abc", name: 'BambooHR', category: 'HRIS', numModels: 12 },
-]
-
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
-}
-
-type Category = {
-  id: number,
-  name: string
 }
 
 export default function IntegrationsTable() {
