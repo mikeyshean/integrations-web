@@ -17,7 +17,7 @@ type Category = {
 }
 
 export default function IntegrationsTable() {
-  const { data: integrations } = api.integrations.list()
+  const { data: integrations } = api.integrations.useList()
   const [showModal, setShowModal] = useState(false)
   
   function toggleModal() {

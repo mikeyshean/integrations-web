@@ -11,8 +11,8 @@ function classNames(...classes: string[]) {
 }
 
 export default function CreateIntegrationModal({ show, toggleModal }: { show: boolean, toggleModal: () => void}) {
-  const { data: categories } = api.integrations.listCategories()
-  const apiCreateIntegration = api.integrations.create()
+  const { data: categories } = api.integrations.useListCategories()
+  const apiCreateIntegration = api.integrations.useCreate()
   const [selected, setSelected] = useState<{id: number, name: string}>()
   const [nameValue, setNameValue] = useState('')
   const [isNameValid, setIsNameValid] = useState(true)

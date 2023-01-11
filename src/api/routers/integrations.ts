@@ -18,7 +18,7 @@ const IntegrationSchema = z.object({
 const IntegrationsSchema = IntegrationSchema.array()
 
 export const integationsRouter =  {
-  list: () => {
+  useList: () => {
     const queryFn = async () => { 
       try {
         const response = await fetcher('/api/integrations')
@@ -30,7 +30,7 @@ export const integationsRouter =  {
     return useQuery({ queryKey: ['integrations'], queryFn: queryFn })
   },
   
-  create: () => {
+  useCreate: () => {
     const mutationFn = async (data: {name: string, category_id: number}) => { 
       try {
         const response = await fetcher('/api/integrations', {method: "POST", data: data})
@@ -43,7 +43,7 @@ export const integationsRouter =  {
     return useMutation({ mutationKey: ['integrations'], mutationFn: mutationFn })
   },
 
-  listCategories: () => {
+  useListCategories: () => {
     const queryFn = async () => { 
       try {
         const response = await fetcher('/api/integration-categories')
