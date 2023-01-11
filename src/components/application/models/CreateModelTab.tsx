@@ -20,6 +20,8 @@ const apiListEndpoints = [
 
 export default function CreateModelTab() {
   const { data: integrations } = api.integrations.useList()
+  const apiCreateModelFromJson = api.jsonMapper.useCreateModelFromJson()
+  const queryClient = useQueryClient()
   const [selectedIntegration, setSelectedIntegration] = useState<{id: number, name: string}>({id: 0, name: ''})
   const [selectedEndpoint, setSelectedEndpoint] = useState<{id: number, name: string}>(apiListEndpoints[0])
   const [modelName, setModelNameValue] = useState('')
@@ -52,20 +54,40 @@ export default function CreateModelTab() {
   //   }
   // }
 
-  function handleCreate() {
+  async function handleCreate() {
+    setIsLoading(true)
     const integrationId = selectedIntegration?.id
+    let isValid = true
+    let json = jsonRef.current
+    
     if (!modelName) {
       setIsNameValid(false)
+      isValid = false
     }
-    if (integrationId) {
-      // await apiCreateIntegration.mutateAsync({name: nameValue, category_id: categoryId}, {
-      //   onSuccess: () => {
-      //     queryClient.invalidateQueries({ queryKey: ["integrations"]})
-      //     toggleModal()
-      //   }
-      // })
-      console.log("mutate")
+    if (!json) {
+      setIsValidJson(false)
+      isValid = false
     }
+    if (!isValid) {
+      setIsLoading(false)
+      return
+    }
+
+    try {
+      json = JSON.parse(json)
+      await apiCreateModelFromJson.mutateAsync({json: json, model_name: modelName, integration_id: integrationId}, {
+        onSuccess: () => {
+          queryClient.invalidateQueries({ queryKey: ['json-mapper/models']})
+          setIsLoading(false)
+        }
+      })
+    } catch (err) {
+      if (err instanceof SyntaxError) {
+        setIsValidJson(false)
+      }
+      setIsLoading(false)
+    }
+
   }
 
   function handleOnChange(value: string) {
