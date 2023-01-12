@@ -69,6 +69,12 @@ export function ListIntegrationTab() {
                         scope="col"
                         className="sticky top-0 z-10 hidden border-b border-gray-300 bg-gray-50 bg-opacity-75 px-3 py-3.5 text-left text-sm font-semibold text-gray-900 backdrop-blur backdrop-filter lg:table-cell"
                       >
+                        API Domain
+                      </th>
+                      <th
+                        scope="col"
+                        className="sticky top-0 z-10 hidden border-b border-gray-300 bg-gray-50 bg-opacity-75 px-3 py-3.5 text-left text-sm font-semibold text-gray-900 backdrop-blur backdrop-filter lg:table-cell"
+                      >
                         # of Endpoints
                       </th>
                       <th
@@ -97,6 +103,14 @@ export function ListIntegrationTab() {
                           )}
                         >
                           {integration.category.name}
+                        </td>
+                        <td
+                          className={classNames(
+                            idx !== integrations.length - 1 ? 'border-b border-gray-200' : '',
+                            'whitespace-nowrap px-3 py-4 text-sm text-gray-500 hidden lg:table-cell'
+                          )}
+                        >
+                          {integration.domains[0]?.domain}
                         </td>
                         <td
                           className={classNames(

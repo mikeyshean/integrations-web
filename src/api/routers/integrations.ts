@@ -15,26 +15,27 @@ const BasicIntegrationSchema = z.object({
   category: CategorySchema
 })
 
-const IntegrationSchema = z.object({
+const IntegrationSchemaWithExtra = z.object({
   id: z.number(),
   name: z.string(),
   endpoint_count: z.number(),
+  domains: z.object({id: z.number(), domain: z.string() }).array(),
   category: CategorySchema
 })
 
-const IntegrationsSchema = IntegrationSchema.array()
+const ListIntegrationsSchema = IntegrationSchemaWithExtra.array()
 
 export const integationsRouter =  {
   useList: () => {
     const queryFn = async () => { 
       const response = await fetcher('/api/integrations')
-      return IntegrationsSchema.parse(response)
+      return ListIntegrationsSchema.parse(response)
     }
     return useQuery({ queryKey: ['integrations'], queryFn: queryFn })
   },
   
   useCreate: () => {
-    const mutationFn = async (data: {name: string, category_id: number}) => { 
+    const mutationFn = async (data: {name: string, category_id: number, domain: string}) => { 
       const response = await fetcher('/api/integrations', {method: "POST", data: data})
       return BasicIntegrationSchema.parse(response)
     }

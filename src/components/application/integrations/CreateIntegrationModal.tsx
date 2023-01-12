@@ -15,7 +15,7 @@ export default function CreateIntegrationModal({ show, toggleModal }: { show: bo
   const apiCreateIntegration = api.integrations.useCreate()
   const [selected, setSelected] = useState<{id: number, name: string}>()
   const [nameValue, setNameValue] = useState('')
-  const [urlValue, setUrlValue] = useState('')
+  const [domainValue, setDomainValue] = useState('')
   const [isNameValid, setIsNameValid] = useState(true)
   const [isUrlValid, setIsUrlValid] = useState(true)
   const [isUniqueError, setIsUniqueError] = useState(false)
@@ -34,7 +34,7 @@ export default function CreateIntegrationModal({ show, toggleModal }: { show: bo
       setIsNameValid(false)
       isValid = false
     }
-    if (!urlValue || !isValidUrl(urlValue)) {
+    if (!domainValue || !isValidUrl(domainValue)) {
       setIsUrlValid(false)
       isValid = false
     }
@@ -44,7 +44,7 @@ export default function CreateIntegrationModal({ show, toggleModal }: { show: bo
     }
 
     if (categoryId) {
-      apiCreateIntegration.mutate({name: nameValue, category_id: categoryId}, {
+      apiCreateIntegration.mutate({name: nameValue, category_id: categoryId, domain: domainValue}, {
         onSuccess: () => {
           queryClient.invalidateQueries({ queryKey: ["integrations"]})
           setIsUniqueError(false)
@@ -76,7 +76,7 @@ export default function CreateIntegrationModal({ show, toggleModal }: { show: bo
     }
     if (isValidUrl(value)) {
       setIsUrlValid(true)
-      setUrlValue(value)
+      setDomainValue(value)
     }
   }
 
