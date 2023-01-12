@@ -1,11 +1,9 @@
 import { api } from '@/api'
+import { classNames } from '@/components/utils'
 import Link from 'next/link'
 import { useState } from 'react'
 import CreateIntegrationModal from './CreateIntegrationModal'
 
-function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(' ')
-}
 
 export default function IntegrationsPage() {
   const { data: integrations } = api.integrations.useList()
@@ -60,12 +58,6 @@ export default function IntegrationsPage() {
                     >
                       # of Models
                     </th>
-                    {/* <th
-                      scope="col"
-                      className="sticky top-0 z-10 border-b border-gray-300 bg-gray-50 bg-opacity-75 px-3 py-3.5 text-left text-sm font-semibold text-gray-900 backdrop-blur backdrop-filter"
-                    >
-                      Role
-                    </th> */}
                     <th
                       scope="col"
                       className="sticky top-0 z-10 border-b border-gray-300 bg-gray-50 bg-opacity-75 py-3.5 pr-4 pl-3 backdrop-blur backdrop-filter sm:pr-6 lg:pr-8"
@@ -101,14 +93,6 @@ export default function IntegrationsPage() {
                       >
                         {integration.category.id}
                       </td>
-                      {/* <td
-                        className={classNames(
-                          idx !== integrations.length - 1 ? 'border-b border-gray-200' : '',
-                          'whitespace-nowrap px-3 py-4 text-sm text-gray-500'
-                        )}
-                      >
-                        {12}
-                      </td> */}
                       <td
                         className={classNames(
                           idx !== integrations.length - 1 ? 'border-b border-gray-200' : '',

@@ -5,10 +5,8 @@ import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
 import Modal from '../Modal'
 import { api } from '@/api'
 import { useQueryClient } from '@tanstack/react-query'
+import { classNames } from '@/components/utils'
 
-function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(' ')
-}
 
 export default function CreateIntegrationModal({ show, toggleModal }: { show: boolean, toggleModal: () => void}) {
   const { data: categories } = api.integrations.useListCategories()

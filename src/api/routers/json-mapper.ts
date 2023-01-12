@@ -1,19 +1,7 @@
 import { fetcher } from "./fetcher";
-import { z } from 'zod'
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation } from '@tanstack/react-query'
+import { ModelSchema } from '../schema/models'
 
-const FieldSchema = z.object({
-  id: z.number(),
-  name: z.string()
-})
-
-const FieldsSchema = FieldSchema.array()
-
-const ModelSchema = z.object({
-  id: z.number(),
-  name: z.string(),
-  fields: FieldsSchema
-})
 
 export const jsonMapperRouter =  {
   useCreateModelFromJson: () => {

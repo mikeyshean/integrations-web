@@ -1,8 +1,5 @@
 import { SyntheticEvent } from "react";
-
-function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(' ')
-}
+import { classNames } from "./utils";
 
 export function Button({ buttonText, isLoading, onClick, isDisabled=false }: { buttonText: string, isLoading: boolean, isDisabled?: boolean, onClick: (e: SyntheticEvent<Element, Event>) => void }) {
   return (
