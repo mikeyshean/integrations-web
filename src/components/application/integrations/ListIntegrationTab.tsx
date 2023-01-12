@@ -33,7 +33,7 @@ export function ListIntegrationTab() {
           <div className="sm:flex-auto">
             <h1 className="text-2xl font-semibold text-gray-900">Integrations</h1>
             <p className="mt-2 text-sm text-gray-700">
-              List of integrations we will build API connections with.  <br/>Each will be assigned a base domain as well as specific resource endpoints.
+              List of integrations we want to build API connections with.  <br/>Each will be assigned a base domain as well as specific resource endpoints.
             </p>
           </div>
           <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">

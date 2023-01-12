@@ -29,8 +29,8 @@ export default function IntegrationsPage() {
 
   return (
     <>
-      <div className="bg-white px-4 py-5 shadow sm:rounded-lg sm:p-6">
-        <div className="md:grid md:grid-cols-3 md:gap-6">
+      <div className="bg-white px-4 py-5 shadow sm:rounded-lg sm:p-6 h-full">
+        <div className="md:grid md:grid-cols-3 md:gap-6 h-full">
 
           {/* Side Bar */}
           <div className="md:col-span-1 flex flex-col justify-start pr-2 border-r">

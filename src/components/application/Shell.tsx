@@ -176,7 +176,7 @@ export default function Shell() {
 
           {/* Main content */}
           <div className="flex flex-1 items-stretch overflow-hidden">
-            <main className="flex-1 overflow-y-auto pt-10">
+            <main className="flex-1 overflow-y-auto pt-1">
               {/* Primary column */}
               <section aria-labelledby="primary-heading" className="flex h-full min-w-0 flex-1 flex-col lg:order-last">
                 <h1 id="primary-heading" className="sr-only">

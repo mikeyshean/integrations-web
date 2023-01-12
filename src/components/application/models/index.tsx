@@ -6,13 +6,13 @@ import { ListModelsTab } from "./ListModelsTab";
 const sideBar = [
   { 
     id: "models-1",
-    title: "View Models", 
+    title: "Models", 
     description: "List of all Models", 
     component: <ListModelsTab />}
   ,
   { 
     id: "models-2",
-    title: "Create a Model", 
+    title: "Create a Model from JSON", 
     description: "Define a new model by providing a sample of the JSON payload.  We&apos;ll parse the types and get it ready for the next step, <b>Mapping</b>.",
     component: <CreateModelTab />
   },
@@ -23,8 +23,8 @@ export function ModelsPage() {
 
   return (
     <>
-      <div className="bg-white px-4 py-5 shadow sm:rounded-lg sm:p-6">
-        <div className="md:grid md:grid-cols-3 md:gap-6">
+      <div className="bg-white px-4 py-5 shadow sm:rounded-lg sm:p-6 h-full">
+        <div className="md:grid md:grid-cols-3 md:gap-6 h-full">
 
           {/* Side Bar */}
           <div className="md:col-span-1 flex flex-col justify-start pr-2 border-r">

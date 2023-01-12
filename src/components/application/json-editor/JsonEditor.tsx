@@ -28,7 +28,7 @@ export function JSONEditor({updateJsonRef, updateIsValidJson }: {updateJsonRef: 
       height="50vh"
       width="100%"
       defaultLanguage="json"
-      defaultValue='{ "example_field": "example_value" }'
+      defaultValue='{}'
       theme="vs-dark"
       onMount={handleEditorDidMount}
       onChange={handleOnChange}
