@@ -5,6 +5,7 @@
       "@/components/*": ["components/*"],
       "@/context/*": ["context/*"],
       "@/api": ["api/index"],
+      "@/constants": ["constants"],
     },
     "target": "es5",
     "lib": [
@@ -34,7 +35,8 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    ".next/types/**/*.ts"
+    ".next/types/**/*.ts", 
+    "src/components"
   ],
   "exclude": [
     "node_modules"

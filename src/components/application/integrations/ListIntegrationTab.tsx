@@ -3,15 +3,28 @@ import { classNames } from "@/components/utils"
 import Link from "next/link"
 import { useState } from "react"
 import CreateIntegrationModal from "./CreateIntegrationModal"
+import {  PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline'
+import { useQueryClient } from "@tanstack/react-query"
 
 
 export function ListIntegrationTab() {
   const { data: integrations } = api.integrations.useList()
+  const apiDeleteIntegration= api.integrations.useDelete()
   const [showModal, setShowModal] = useState(false)
+  const queryClient =  useQueryClient()
   
   function toggleModal() {
     setShowModal(!showModal)
   }
+
+  async function handleDelete(id: number) {
+    apiDeleteIntegration.mutate({id: id}, {
+      onSuccess: () => {
+        queryClient.invalidateQueries({queryKey: ["integrations"]})
+      }
+    })
+  }
+
   return (
     <div className="mt-5 md:col-span-2 md:mt-0">
       <div className="px-4 sm:px-6 lg:px-8">
@@ -20,7 +33,7 @@ export function ListIntegrationTab() {
           <div className="sm:flex-auto">
             <h1 className="text-2xl font-semibold text-gray-900">Integrations</h1>
             <p className="mt-2 text-sm text-gray-700">
-              List of all integrations.  <br/>Each one can have many endpoints, and each endpoint can have a defined model.
+              List of integrations we will build API connections with.  <br/>Each will be assigned a base domain as well as specific resource endpoints.
             </p>
           </div>
           <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
@@ -91,19 +104,34 @@ export function ListIntegrationTab() {
                             'whitespace-nowrap px-3 py-4 text-sm text-gray-500 hidden lg:table-cell'
                           )}
                         >
-                          {integration.endpoint_count} <Link href="#" className="text-indigo-600 hover:text-indigo-900 pl-1">
-                            Add <span className="sr-only">, Endpoint</span>
-                          </Link>
+                          {integration.endpoint_count}
                         </td>
                         <td
                           className={classNames(
                             idx !== integrations.length - 1 ? 'border-b border-gray-200' : '',
-                            'relative whitespace-nowrap py-4 pr-4 pl-3 text-right text-sm font-medium sm:pr-6 lg:pr-8'
+                            'flex justify-end whitespace-nowrap py-4 pr-4 pl-3 text-right text-sm font-medium sm:pr-6 lg:pr-8'
                           )}
                         >
                           <Link href="#" className="text-indigo-600 hover:text-indigo-900">
-                            Edit<span className="sr-only">, {integration.name}</span>
+                            <PencilSquareIcon
+                                className={classNames(
+                                  'text-indigo-300 hover:text-indigo-500',
+                                  'h-6 w-6'
+                                )}
+                                aria-hidden="true"
+                              />
+                              <span className="sr-only">, Edit {integration.name}</span>
                           </Link>
+                          <button onClick={() => {handleDelete(integration.id)}} className="text-indigo-600 hover:text-indigo-900 pl-4">
+                            <TrashIcon
+                                className={classNames(
+                                  'text-indigo-300 hover:text-indigo-500',
+                                  'h-6 w-6'
+                                )}
+                                aria-hidden="true"
+                              />
+                              <span className="sr-only">, Delete {integration.name}</span>
+                          </button>
                         </td>
                       </tr>
                     ))}

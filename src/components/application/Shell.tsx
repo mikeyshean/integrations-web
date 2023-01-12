@@ -13,6 +13,7 @@ import IntegrationsPage from './integrations'
 import { useAuthContext } from '@/context/AuthContext'
 import AppHome from './Home'
 import { ModelsPage } from './models'
+import { classNames } from '../utils'
 
 const sidebarNavigation = [
   { name: 'Integrations', href: '#', icon: Squares2X2Icon, current: false },
@@ -21,10 +22,6 @@ const sidebarNavigation = [
   { name: 'Test', href: '#', icon: BeakerIcon, current: false },
   { name: 'Sign out', href: '#', icon: ArrowLeftOnRectangleIcon, current: false },
 ]
-
-function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(' ')
-}
 
 export default function Shell() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)

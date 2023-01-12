@@ -9,6 +9,12 @@ const CategorySchema = z.object({
 
 const CategoriesSchema = CategorySchema.array()
 
+const BasicIntegrationSchema = z.object({
+  id: z.number(),
+  name: z.string(),
+  category: CategorySchema
+})
+
 const IntegrationSchema = z.object({
   id: z.number(),
   name: z.string(),
@@ -21,39 +27,34 @@ const IntegrationsSchema = IntegrationSchema.array()
 export const integationsRouter =  {
   useList: () => {
     const queryFn = async () => { 
-      try {
-        const response = await fetcher('/api/integrations')
-        return IntegrationsSchema.parse(response)
-      } catch (err) {
-        throw new Error("Integrations List API Error")
-      }
+      const response = await fetcher('/api/integrations')
+      return IntegrationsSchema.parse(response)
     }
     return useQuery({ queryKey: ['integrations'], queryFn: queryFn })
   },
   
   useCreate: () => {
     const mutationFn = async (data: {name: string, category_id: number}) => { 
-      try {
-        const response = await fetcher('/api/integrations', {method: "POST", data: data})
-        return IntegrationSchema.parse(response)
-      } catch (err) {
-        console.log(err)
-        throw new Error("Integrations Create API Error")
-      }
+      const response = await fetcher('/api/integrations', {method: "POST", data: data})
+      return BasicIntegrationSchema.parse(response)
     }
     return useMutation({ mutationKey: ['integrations'], mutationFn: mutationFn })
   },
 
   useListCategories: () => {
     const queryFn = async () => { 
-      try {
-        const response = await fetcher('/api/integration-categories')
-        return CategoriesSchema.parse(response)
-      } catch (err) {
-        throw new Error("Integrations Create API Error")
-      }
+      const response = await fetcher('/api/integration-categories')
+      return CategoriesSchema.parse(response)
     }
     return useQuery({ queryKey: ['categories'], queryFn: queryFn })
+  },
+
+  useDelete: () => {
+    const mutationFn = async (data: { id: number }) => { 
+      const response = await fetcher(`/api/integrations/${data.id}`, { method: "DELETE" })
+      return response
+    }
+    return useMutation({ mutationKey: ['integrations'], mutationFn: mutationFn })
   },
 
 }

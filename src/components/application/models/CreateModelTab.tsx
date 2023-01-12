@@ -36,22 +36,6 @@ export default function CreateModelTab() {
     setIsValidJson(isValid)
   }
 
-  // async function handleOnSubmit() {
-  //   const integrationId = selectedIntegration?.id
-  //   if (!modelName) {
-  //     setIsNameValid(false)
-  //   }
-  //   if (integrationId) {
-  //     // await apiCreateIntegration.mutateAsync({name: nameValue, category_id: categoryId}, {
-  //     //   onSuccess: () => {
-  //     //     queryClient.invalidateQueries({ queryKey: ["integrations"]})
-  //     //     toggleModal()
-  //     //   }
-  //     // })
-  //     console.log("mutate")
-  //   }
-  // }
-
   async function handleCreate() {
     setIsLoading(true)
     const integrationId = selectedIntegration?.id
