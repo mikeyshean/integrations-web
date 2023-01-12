@@ -12,6 +12,7 @@ const CategoriesSchema = CategorySchema.array()
 const IntegrationSchema = z.object({
   id: z.number(),
   name: z.string(),
+  endpoint_count: z.number(),
   category: CategorySchema
 })
 

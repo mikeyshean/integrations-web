@@ -91,7 +91,7 @@ export function ListIntegrationTab() {
                             'whitespace-nowrap px-3 py-4 text-sm text-gray-500 hidden lg:table-cell'
                           )}
                         >
-                          {integration.category.id} <Link href="#" className="text-indigo-600 hover:text-indigo-900 pl-1">
+                          {integration.endpoint_count} <Link href="#" className="text-indigo-600 hover:text-indigo-900 pl-1">
                             Add <span className="sr-only">, Endpoint</span>
                           </Link>
                         </td>
