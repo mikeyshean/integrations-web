@@ -29,9 +29,9 @@ export function ModelsPage() {
               <button className={classNames(
                 item.title == currentTab.title ? 'bg-indigo-100 text-white' : 'text-indigo-100 hover:bg-indigo-100 hover:text-white',
                 'group w-full p-3 rounded-md flex flex-col text-xs font-medium',
-                "pb-10 mb-2 text-left border"
+                "py-5 mb-2 text-left border"
               )} onClick={() => {setCurrentTab(item)}}>
-                <h3 className="text-lg font-medium leading-6 text-gray-900">{item.title}</h3>
+                <h3 className="text-lg font-medium leading-6 text-gray-900 pb-2">{item.title}</h3>
                 <p className="mt-1 text-sm text-gray-500">
                   <div dangerouslySetInnerHTML={{ __html: item.description }}></div>
                 </p>
