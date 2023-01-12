@@ -13,7 +13,7 @@ import { API_ERROR } from '@/constants'
 export default function CreateIntegrationModal({ show, toggleModal }: { show: boolean, toggleModal: () => void}) {
   const { data: categories } = api.integrations.useListCategories()
   const apiCreateIntegration = api.integrations.useCreate()
-  const [selected, setSelected] = useState<{id: number, name: string}>()
+  const [selected, setSelected] = useState<{id: number, name: string}>({id: 0, name: ''})
   const [nameValue, setNameValue] = useState('')
   const [domainValue, setDomainValue] = useState('')
   const [isNameValid, setIsNameValid] = useState(true)

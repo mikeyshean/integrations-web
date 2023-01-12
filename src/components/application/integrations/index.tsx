@@ -1,5 +1,6 @@
 import { classNames } from '@/components/utils'
 import { useState } from 'react'
+import { ListEndpointTab } from './ListEndpointTab'
 import { ListIntegrationTab } from './ListIntegrationTab'
 
 const sideBar = [
@@ -9,17 +10,17 @@ const sideBar = [
     description: "View/Create API Integrations", 
     component: <ListIntegrationTab />
   },
-  { 
-    id: "integrations-2",
-    title: "Domains", 
-    description: "View/Create API domains assigned to each integration",
-    component: ''
-  },
+  // { 
+  //   id: "integrations-2",
+  //   title: "Domains", 
+  //   description: "View/Create API domains assigned to each integration",
+  //   component: ''
+  // },
   { 
     id: "integrations-3",
     title: "Endpoints", 
     description: "View/Create API endpoints for each integration",
-    component: ''
+    component: <ListEndpointTab />
   },
 ]
 

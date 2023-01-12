@@ -1,6 +1,7 @@
 import { fetcher } from "./fetcher";
 import { z } from 'zod'
 import { useMutation, useQuery } from '@tanstack/react-query'
+import { ModelSchema } from "api/schema/models";
 
 const CategorySchema = z.object({
   id: z.number(),
@@ -25,6 +26,17 @@ const IntegrationSchemaWithExtra = z.object({
 
 const ListIntegrationsSchema = IntegrationSchemaWithExtra.array()
 
+const EndpointSchema = z.object({
+  id: z.number(),
+  method: z.string(),
+  path: z.string(),
+  integration: BasicIntegrationSchema,
+  model: z.object({id: z.string(), name: z.string()}).nullable()
+})
+
+const EndpointsSchema = EndpointSchema.array()
+
+
 export const integationsRouter =  {
   useList: () => {
     const queryFn = async () => { 
@@ -42,17 +54,42 @@ export const integationsRouter =  {
     return useMutation({ mutationKey: ['integrations'], mutationFn: mutationFn })
   },
 
+  useCreateEndpoint: () => {
+    const mutationFn = async (data: {method: string, path: string, integrationId: number}) => { 
+      const { integrationId, ...postData } = data
+      const response = await fetcher(`/api/integrations/${data.integrationId}/endpoints`, {method: "POST", data: postData})
+      return EndpointSchema.parse(response)
+    }
+    return useMutation({ mutationKey: ['integrations', 'endpoints'], mutationFn: mutationFn })
+  },
+
   useListCategories: () => {
     const queryFn = async () => { 
-      const response = await fetcher('/api/integration-categories')
+      const response = await fetcher('/api/integration/categories')
       return CategoriesSchema.parse(response)
     }
     return useQuery({ queryKey: ['categories'], queryFn: queryFn })
   },
 
+  useListEndpoints: () => {
+    const queryFn = async () => { 
+      const response = await fetcher('/api/endpoints')
+      return EndpointsSchema.parse(response)
+    }
+    return useQuery({ queryKey: ['endpoints'], queryFn: queryFn })
+  },
+
   useDelete: () => {
     const mutationFn = async (data: { id: number }) => { 
       const response = await fetcher(`/api/integrations/${data.id}`, { method: "DELETE" })
+      return response
+    }
+    return useMutation({ mutationKey: ['integrations'], mutationFn: mutationFn })
+  },
+ 
+  useDeleteEndpoint: () => {
+    const mutationFn = async (data: { id: number }) => { 
+      const response = await fetcher(`/api/endpoints/${data.id}`, { method: "DELETE" })
       return response
     }
     return useMutation({ mutationKey: ['integrations'], mutationFn: mutationFn })
