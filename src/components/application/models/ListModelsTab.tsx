@@ -8,7 +8,7 @@ export function ListModelsTab() {
 
   return (
     <div className="mt-5 md:col-span-2 md:mt-0">
-      <div className="max-h-[600px] 2xl:max-h-[800px] overflow-y-auto">
+      <div className="max-h-[700px] 2xl:max-h-[850px] overflow-y-auto">
         <div className="px-4 sm:px-6 lg:px-8">
           <div className="sm:flex sm:items-center">
             <div className="sm:flex-auto">
@@ -18,7 +18,7 @@ export function ListModelsTab() {
               </p>
             </div>
           </div>
-          <div className="mt-8 flex flex-col">
+          <div className="mt-8 flex flex-col border-l border-r border-b">
             <div className="-my-2 -mx-4 sm:-mx-6 lg:-mx-8">
               <div className="inline-block min-w-full py-2 align-middle">
                 <div className="shadow-sm ring-1 ring-black ring-opacity-5">
