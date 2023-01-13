@@ -66,7 +66,7 @@ export default function CreateModelTab() {
 
     try {
       json = JSON.parse(json)
-      await apiCreateModelFromJson.mutateAsync({json: json, model_name: modelName, integration_id: integrationId}, {
+      await apiCreateModelFromJson.mutateAsync({json: json, modelName: modelName, endpointId: selectedEndpoint!.id}, {
         onSuccess: () => {
           queryClient.invalidateQueries({ queryKey: ['models']})
           setIsLoading(false)

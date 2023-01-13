@@ -47,7 +47,8 @@ export const integationsRouter =  {
   },
   
   useCreate: () => {
-    const mutationFn = async (data: {name: string, category_id: number, domain: string}) => { 
+    const mutationFn = async (data: {name: string, categoryId: number, domain: string}) => { 
+      const postData = { name: data.name, category_id: data.categoryId, domain: data.domain}
       const response = await fetcher('/api/integrations', {method: "POST", data: data})
       return BasicIntegrationSchema.parse(response)
     }
