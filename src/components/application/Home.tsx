@@ -41,7 +41,7 @@ export default function AppHome() {
           <ul className="list-disc">
             <li>Your software needs to integrate with APIs that all provide relatively similar data, but in a variety of formats</li>
             <li>You want to build a product like <Link href="https://plaid.com" className="underline">Plaid</Link>, <Link className="underline" href="https://merge.dev">Merge.dev</Link>, or <Link className="underline" href="https://tryfinch.com">Finch</Link>, that 
-            requires quickly adding new integrations across several categories</li>
+            requires the ability to quickly add new integrations across several categories</li>
             <li>You are a B2B SaaS and your customers are asking if you have <i>X</i> integration.  Do you build them one at a time from scratch?</li>
           </ul>
         </div>
@@ -52,15 +52,15 @@ export default function AppHome() {
           Quick Start Guide
         </h1>
         <div className="pt-5">
-          Use the sidebar on left to step through the following workflow.  At the moment, this is a Proof of Concept (POC) that is under active development. 
-          I&apos;ll keep the steps below updated to indicate what is currently available.  
+          Use the sidebar on the left to step through the following workflow.  At the moment, this is a Proof of Concept (POC) that is under development. 
+          The steps below will be updated to indicate what is currently available.  
         </div>
 
         <div className="p-5">
           <ol className="list-decimal">
-            <li><b>Integrations:</b> Define an integration by name, category, and a base/root domain for their API </li>
-            <li><b>Integrations {'>'} Endpoints:</b> Define specific API endpoints by their resource path and HTTP method. <br/><i>Note: we will only work with GET requests for the data sync use case in this POC.</i></li>
-            <li><b>Models:</b> Create a Model from a real JSON payload.  We will parse and define the model, fields, and data types to be used during mapping to the target model.</li>
+            <li><b>Integrations:</b> Define an integration with a name, category, and a base/root domain for the API </li>
+            <li><b>Integrations {'->'} Endpoints:</b> Define specific API endpoints by their resource path and HTTP method. <br/><i>Note: For the scope of this POC, we will only consider the GET requests use case for data syncing.</i></li>
+            <li><b>Models:</b> Generate a Model from a sample JSON payload.  This will parse and define the Model&apos;s fields and data types to be used during mapping to the target model.</li>
             <li><b>Mapper:</b> <span className="text-red-600 italic">(Coming Soon)</span>  Here we will display the generated Model in the previous step.  
                 Based on the category that this Model&apos;s integration is associated with, you can pick which target
                   model to map to. During this process, you will also be able to assign a data transformation to apply to each field if necessary, for example: Uppercase/Lowercase, DateTime conversions, etc.</li>

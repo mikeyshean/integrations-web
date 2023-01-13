@@ -1,7 +1,6 @@
 import { fetcher } from "./fetcher";
 import { z } from 'zod'
 import { useMutation, useQuery } from '@tanstack/react-query'
-import { ModelSchema } from "api/schema/models";
 
 const CategorySchema = z.object({
   id: z.number(),
@@ -31,7 +30,7 @@ const EndpointSchema = z.object({
   method: z.string(),
   path: z.string(),
   integration: BasicIntegrationSchema,
-  model: z.object({id: z.string(), name: z.string()}).nullable()
+  model: z.object({id: z.number(), name: z.string()}).nullable()
 })
 
 const EndpointsSchema = EndpointSchema.array()
@@ -83,6 +82,14 @@ export const integationsRouter =  {
   useListEndpoints: () => {
     const queryFn = async () => { 
       const response = await fetcher('/api/endpoints')
+      return EndpointsSchema.parse(response)
+    }
+    return useQuery({ queryKey: ['endpoints'], queryFn: queryFn })
+  },
+  
+  useListEndpointModels: () => {
+    const queryFn = async () => { 
+      const response = await fetcher('/api/endpoints/models')
       return EndpointsSchema.parse(response)
     }
     return useQuery({ queryKey: ['endpoints'], queryFn: queryFn })
