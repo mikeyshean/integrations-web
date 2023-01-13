@@ -2,7 +2,6 @@ import { useEffect, useState, Fragment, useRef } from 'react'
 import { Listbox, Transition } from '@headlessui/react'
 import { ExclamationCircleIcon } from '@heroicons/react/24/solid'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
-import Modal from '../Modal'
 import { api } from '@/api'
 import { useQueryClient } from '@tanstack/react-query'
 import { JSONEditor } from '../json-editor/JsonEditor'
@@ -59,7 +58,7 @@ export default function CreateModelTab() {
       json = JSON.parse(json)
       await apiCreateModelFromJson.mutateAsync({json: json, model_name: modelName, integration_id: integrationId}, {
         onSuccess: () => {
-          queryClient.invalidateQueries({ queryKey: ['json-mapper/models']})
+          queryClient.invalidateQueries({ queryKey: ['models']})
           setIsLoading(false)
         }
       })

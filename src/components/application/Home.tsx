@@ -3,8 +3,8 @@ import Link from "next/link";
 export default function AppHome() {
   
   return (
-    <div className="py-10 px-80 2xl:px-96">
-      
+    <div className="py-10 px-5 lg:px-80 2xl:px-96">
+      <div className="min-w-64">
       <h1 className="text-2xl font-semibold text-gray-900 pb-5">
         Integrations Builder: <span className="font-normal">An API Mapping Tool</span>
       </h1>
@@ -68,6 +68,7 @@ export default function AppHome() {
           </ol>
         </div>
       </div>
+    </div>
     </div>
   )
 }
