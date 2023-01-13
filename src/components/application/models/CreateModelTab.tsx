@@ -9,20 +9,22 @@ import { Button } from '@/components/Button'
 import { classNames } from '@/components/utils'
 
 
-const apiListEndpoints = [
-  { id: 1, name: "/employees - Get Employees"},
-  { id: 2, name: "/addresses - Get Addresses"},
-  { id: 3, name: "/departments - Get Departments"},
-]
+type SelectEndpoint = { id: number, path: string, method: string }
+type SelectIntegration = { id: number, name: string }
 
 export default function CreateModelTab() {
   const { data: integrations } = api.integrations.useList()
   const apiCreateModelFromJson = api.jsonMapper.useCreateModelFromJson()
   const queryClient = useQueryClient()
-  const [selectedIntegration, setSelectedIntegration] = useState<{id: number, name: string}>({id: 0, name: ''})
-  const [selectedEndpoint, setSelectedEndpoint] = useState<{id: number, name: string}>(apiListEndpoints[0])
+  const [selectedIntegration, setSelectedIntegration] = useState<SelectIntegration>({id: 0, name: ''})
+  const [selectedEndpoint, setSelectedEndpoint] = useState<SelectEndpoint|null>(null)
+  const { data: integrationEndpoints } = api.integrations.useGetIntegrationEndpoints({ id: selectedIntegration.id, enabled: !!selectedIntegration.id })
   const [modelName, setModelNameValue] = useState('')
-  const [isNameValid, setIsNameValid] = useState(true)
+  
+  //  Form state
+  const [isValidName, setIsValidName] = useState(true)
+  const [isValidIntegration, setIsValidIntegration] = useState(true)
+  const [isValidEndpoint, setIsValidEndpoint] = useState(true)
   const jsonRef = useRef<string>('')
   const [isLoading, setIsLoading] = useState(false)
   const [isValidJson, setIsValidJson] = useState(true)
@@ -42,11 +44,19 @@ export default function CreateModelTab() {
     let json = jsonRef.current
     
     if (!modelName) {
-      setIsNameValid(false)
+      setIsValidName(false)
       isValid = false
     }
     if (!json) {
       setIsValidJson(false)
+      isValid = false
+    }
+    if (!integrationId) {
+      setIsValidIntegration(false)
+      isValid = false
+    }
+    if (!selectedEndpoint?.id) {
+      setIsValidEndpoint(false)
       isValid = false
     }
     if (!isValid) {
@@ -73,17 +83,30 @@ export default function CreateModelTab() {
 
   function handleOnChange(value: string) {
     if (!value) {
-      setIsNameValid(false)
+      setIsValidName(false)
     }
-    setIsNameValid(true)
+    setIsValidName(true)
     setModelNameValue(value)
   }
 
-  useEffect(() => {
-    if (integrations && integrations.length > 0) {
-      setSelectedIntegration(integrations[0])
+  function handleEndpointOnChange(endpoint: SelectEndpoint) {
+    setSelectedEndpoint(endpoint)
+    if (endpoint.id) {
+      setIsValidEndpoint(true)
     }
-  },[integrations])
+  }
+  
+  function handleIntegrationOnChange(integration: SelectIntegration) {
+    setSelectedIntegration(integration)
+    if (integration.id) {
+      setIsValidIntegration(true)
+    }
+  }
+  
+  // Reset endpoint Listbox to default selection
+  useEffect(() => {
+      setSelectedEndpoint(null)
+  }, [selectedIntegration])
 
   if (!integrations || integrations.length == 0 ) {
     return (
@@ -104,7 +127,7 @@ export default function CreateModelTab() {
       <div className="grid grid-cols-6 gap-6 overflow-auto pl-1">
         {/* Integration */}
 
-        <Listbox value={selectedIntegration} onChange={setSelectedIntegration}>
+        <Listbox value={selectedIntegration} onChange={handleIntegrationOnChange}>
           {({ open }) => (
             <>
               <div className="col-span-6 sm:col-span-3">
@@ -112,12 +135,19 @@ export default function CreateModelTab() {
 
                 
                 <div className="relative mt-1">
-                  <Listbox.Button className="relative w-full cursor-default rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 text-left shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm">
-                    <span className="block truncate">{selectedIntegration?.name}</span>
+                <Listbox.Button className={classNames(
+                    isValidIntegration ? "border-gray-300 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500" : "border-red-300 pr-10 text-red-900 placeholder-red-300 focus:border-red-500 focus:outline-none focus:ring-red-500",
+                    "relative w-full cursor-default rounded-md border bg-white py-2 pl-3 pr-10 text-left sm:text-sm"
+                    )}>
+                    <span className={classNames(
+                      selectedIntegration?.name ? "" : "text-gray-400", 
+                      isValidIntegration ? "" : "text-red-300",
+                      "block truncate")}>{selectedIntegration?.name || "Select Integration"}</span>
                     <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                       <ChevronUpDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
                     </span>
                   </Listbox.Button>
+                 
 
                   <Transition
                     show={open}
@@ -169,13 +199,19 @@ export default function CreateModelTab() {
         <div className="col-span-6 sm:col-span-3">
           {/* Endpoint */}
 
-          <Listbox value={selectedEndpoint} onChange={setSelectedEndpoint}>
+          <Listbox value={selectedEndpoint} onChange={handleEndpointOnChange}>
             {({ open }) => (
               <>
                 <Listbox.Label className="block text-sm font-medium mt-5 text-gray-700">API Endpoint</Listbox.Label>
                 <div className="relative mt-1">
-                  <Listbox.Button className="relative w-full cursor-default rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 text-left shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm">
-                    <span className="block truncate">{selectedEndpoint?.name}</span>
+                  <Listbox.Button className={classNames(
+                    isValidEndpoint ? "border-gray-300 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500" : "border-red-300 pr-10 text-red-900 placeholder-red-300 focus:border-red-500 focus:outline-none focus:ring-red-500",
+                    "relative w-full cursor-default rounded-md border bg-white py-2 pl-3 pr-10 text-left sm:text-sm"
+                    )}>
+                  <span className={classNames(
+                      selectedEndpoint ? "" : "text-gray-400",
+                      isValidEndpoint ? "" : "text-red-300",
+                      "block truncate")}>{selectedEndpoint?.path || "Select Endpoint"}</span>
                     <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                       <ChevronUpDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
                     </span>
@@ -189,7 +225,7 @@ export default function CreateModelTab() {
                     leaveTo="opacity-0"
                   >
                     <Listbox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                      {apiListEndpoints?.map((endpoint) => (
+                      {integrationEndpoints?.map((endpoint) => (
                         <Listbox.Option
                           key={endpoint.id}
                           className={({ active }) =>
@@ -203,7 +239,7 @@ export default function CreateModelTab() {
                           {({ selected, active }) => (
                             <>
                               <span className={classNames(selected ? 'font-semibold' : 'font-normal', 'block truncate')}>
-                                {endpoint.name}
+                                {endpoint.path} - {endpoint.method}
                               </span>
 
                               {selected ? (
@@ -239,7 +275,7 @@ export default function CreateModelTab() {
               id="model-name"
               className={classNames(
                 "block w-full rounded-md sm:text-sm", 
-                isNameValid ? "border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" : "border-red-300 pr-10 text-red-900 placeholder-red-300 focus:border-red-500 focus:outline-none focus:ring-red-500",
+                isValidName ? "border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" : "border-red-300 pr-10 text-red-900 placeholder-red-300 focus:border-red-500 focus:outline-none focus:ring-red-500",
               )}
               placeholder="ex. Employee, Company, Ticket - The model returned from the API"
               aria-invalid="true"
@@ -247,17 +283,12 @@ export default function CreateModelTab() {
               value={modelName}
               onChange={(e) => handleOnChange(e.target.value)}
             />
-            { !isNameValid && 
+            { !isValidName && 
               <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
                 <ExclamationCircleIcon className="h-5 w-5 text-red-500" aria-hidden="true" />
               </div>
             }
           </div>
-          {!isNameValid && 
-            <p className="mt-2 text-sm text-red-600" id="email-error">
-              Model name is required.
-            </p>
-          }
         </div>
         <div className="col-span-12 sm:col-span-6 relative">
           <div className='flex'>

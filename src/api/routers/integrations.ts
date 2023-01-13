@@ -62,6 +62,14 @@ export const integationsRouter =  {
     }
     return useMutation({ mutationKey: ['integrations', 'endpoints'], mutationFn: mutationFn })
   },
+  
+  useGetIntegrationEndpoints:  ({id, ...args }: {id: number, [key: string]: any }) => {
+    const queryFn = async () => { 
+      const response = await fetcher(`/api/integrations/${id}/endpoints`)
+      return EndpointsSchema.parse(response)
+    }
+    return useQuery({ queryKey: ['integrations', id, 'endpoints'], queryFn: queryFn, ...args })
+  },
 
   useListCategories: () => {
     const queryFn = async () => { 
