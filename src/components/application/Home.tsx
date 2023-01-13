@@ -55,7 +55,7 @@ export default function AppHome() {
           </h1>
           <div className="pt-5">
             Use the sidebar on left to step through the following workflow.  At the moment, this is a Proof of Concept (POC) that is under active development. 
-            I'll keep the steps below updated to indicate what is currently available.  
+            I&apos;ll keep the steps below updated to indicate what is currently available.  
           </div>
 
           <div className="p-5">
@@ -64,7 +64,7 @@ export default function AppHome() {
               <li><b>Integrations {'>'} Endpoints:</b> Define specific endpoints, their path to be used in combination with the base domain, and the HTTP method. <br/><i>Note: we will only work with GET requests for the data sync use case in this POC.</i></li>
               <li><b>Models:</b> Create a Model with a real JSON payload.  We will parse and create a model, field, and data type representation of it to be used to map to an internal target model.</li>
               <li><b>Mapper:</b> <span className="text-red-600 italic">(Coming Soon)</span>  Here we will display the Model generated in the previous step.  
-                  Based on the category this Model's integration is associated with, you can pick which target
+                  Based on the category this Model&apos;s integration is associated with, you can pick which target
                    model to map to. During this process, you will also be able to assign a data transformation to apply for example: Uppercase/Lowercase, DateTime conversions, etc.</li>
               <li><b>Test:</b> <span className="text-red-600 italic">(Coming Soon)</span> Validate your mappings and transformations with more sample JSON data from the integration</li>
             </ol>
