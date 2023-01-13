@@ -44,7 +44,7 @@ export default function CreateIntegrationModal({ show, toggleModal }: { show: bo
     }
 
     if (categoryId) {
-      apiCreateIntegration.mutate({name: nameValue, category_id: categoryId, domain: domainValue}, {
+      apiCreateIntegration.mutate({name: nameValue, categoryId: categoryId, domain: domainValue}, {
         onSuccess: () => {
           queryClient.invalidateQueries({ queryKey: ["integrations"]})
           setIsUniqueError(false)
