@@ -13,6 +13,9 @@ export default function RootLayout({children}: {
 
   return (
     <html className="h-full bg-white">
+      <head>
+        <title>API Mapper</title>
+      </head>
       <body className="h-full overflow-hidden">
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
