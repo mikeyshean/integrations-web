@@ -5,8 +5,8 @@ import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
 import { api } from '@/api'
 import { useQueryClient } from '@tanstack/react-query'
 import { JSONEditor } from '../json-editor/JsonEditor'
-import { Button } from '@/components/Button'
-import { classNames } from '@/components/utils'
+import { Button } from 'screens/Button'
+import { classNames } from 'screens/utils'
 
 
 type SelectEndpoint = { id: number, path: string, method: string }

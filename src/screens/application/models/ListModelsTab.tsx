@@ -1,5 +1,5 @@
 import { api } from "@/api"
-import { classNames } from "@/components/utils"
+import { classNames } from "screens/utils"
 import Link from "next/link"
 
 

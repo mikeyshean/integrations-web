@@ -1,4 +1,4 @@
-import { classNames } from '@/components/utils'
+import { classNames } from 'screens/utils'
 import { useState } from 'react'
 import { ListEndpointTab } from './ListEndpointTab'
 import { ListIntegrationTab } from './ListIntegrationTab'

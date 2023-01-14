@@ -1,5 +1,5 @@
 "use client"
-import ToastContainer from '@/components/toast/ToastContainer'
+import ToastContainer from 'screens/toast/ToastContainer'
 import { ToastProvider } from '@/context/ToastContext'
 
 

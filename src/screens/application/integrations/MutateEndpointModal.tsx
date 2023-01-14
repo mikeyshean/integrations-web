@@ -5,7 +5,7 @@ import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
 import Modal from '../Modal'
 import { api } from '@/api'
 import { useQueryClient } from '@tanstack/react-query'
-import { classNames } from '@/components/utils'
+import { classNames } from 'screens/utils'
 import { ApiError } from 'api/errors'
 import { API_ERROR } from '@/constants'
 

@@ -1,5 +1,5 @@
 "use client"
-import Shell from '@/components/application/Shell';
+import Shell from 'screens/application/Shell';
 
 export default function AppPage() {
     return (
