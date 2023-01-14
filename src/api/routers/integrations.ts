@@ -47,8 +47,8 @@ export const integationsRouter =  {
   
   useCreate: () => {
     const mutationFn = async (data: {name: string, categoryId: number, domain: string}) => { 
-      const postData = { name: data.name, category_id: data.categoryId, domain: data.domain}
-      const response = await fetcher('/api/integrations', {method: "POST", data: data})
+      const postData = { ...data, category_id: data.categoryId }
+      const response = await fetcher('/api/integrations', {method: "POST", data: postData})
       return BasicIntegrationSchema.parse(response)
     }
     return useMutation({ mutationKey: ['integrations'], mutationFn: mutationFn })
@@ -57,7 +57,7 @@ export const integationsRouter =  {
   useCreateEndpoint: () => {
     const mutationFn = async (data: {method: string, path: string, integrationId: number}) => { 
       const { integrationId, ...postData } = data
-      const response = await fetcher(`/api/integrations/${data.integrationId}/endpoints`, {method: "POST", data: postData})
+      const response = await fetcher(`/api/integrations/${integrationId}/endpoints`, {method: "POST", data: postData})
       return EndpointSchema.parse(response)
     }
     return useMutation({ mutationKey: ['integrations', 'endpoints'], mutationFn: mutationFn })
@@ -106,6 +106,15 @@ export const integationsRouter =  {
   useDeleteEndpoint: () => {
     const mutationFn = async (data: { id: number }) => { 
       const response = await fetcher(`/api/endpoints/${data.id}`, { method: "DELETE" })
+      return response
+    }
+    return useMutation({ mutationKey: ['integrations'], mutationFn: mutationFn })
+  },
+  
+  useEditEndpoint: () => {
+    const mutationFn = async (data: { id: number,  method: string, path: string, integrationId: number}) => { 
+      const putData = { ...data, integration_id: data.integrationId}
+      const response = await fetcher(`/api/endpoints/${data.id}`, { method: "PATCH", data: putData })
       return response
     }
     return useMutation({ mutationKey: ['integrations'], mutationFn: mutationFn })

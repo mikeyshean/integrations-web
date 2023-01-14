@@ -11,7 +11,7 @@ export async function fetcher(
     method,
     data
   }: {
-    method: "POST" | "GET" | "PUT" | "DELETE",
+    method: "POST" | "GET" | "PUT" | "PATCH" | "DELETE",
     data?: string | object | null
   } = {method: "GET", data: null}
 ) {
@@ -41,6 +41,7 @@ export async function fetcher(
         throw new Error("Http 401: Session Expired")
       case 422:
         const err = await response.json()
+        // TODO: Handle API error codes here
         if (err['api_error_code'] == 1) {
           throw new ApiError(response.status, "Unique or duplicate error", API_ERROR.UNIQUE_OR_REQUIRED_FIELD)
         }

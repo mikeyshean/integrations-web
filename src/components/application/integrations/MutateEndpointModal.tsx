@@ -5,63 +5,113 @@ import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
 import Modal from '../Modal'
 import { api } from '@/api'
 import { useQueryClient } from '@tanstack/react-query'
-import { classNames, isValidUrl } from '@/components/utils'
+import { classNames } from '@/components/utils'
 import { ApiError } from 'api/errors'
 import { API_ERROR } from '@/constants'
 
 
-const METHODS = [
+const Methods = [
   'GET',
   'POST',
   'PUT',
   'PATCH',
   'DELETE'
-]
+] as const
 
-export default function CreateEndpointModal({ show, toggleModal }: { show: boolean, toggleModal: () => void}) {
+type SelectedIntegration = {id: number, name: string}
+
+export default function MutateEndpointModal(
+  { show, toggleModal, isEditForm, id, integrationId, integrationName, path, method}: 
+  {
+     show: boolean, 
+     toggleModal: () => void,
+     isEditForm: boolean,
+     id: number|null,
+     integrationId: number|null,
+     integrationName: string|null,
+     path: string|null,
+     method: string|null
+  }) {
   const { data: integrations } = api.integrations.useList()
   const apiCreateEndpoint = api.integrations.useCreateEndpoint()
-  const [selectedIntegration, setSelectedIntegration] = useState<{id: number, name: string}>({id: 0, name: ''})
-  const [selectedMethod, setSelectedMethod] = useState<string>(METHODS[0])
-  const [isUniqueError, setIsUniqueError] = useState(false)
-  const [pathValue, setPathValue] = useState('')
+  const apiEditEndpoint = api.integrations.useEditEndpoint()
+  const [selectedIntegration, setSelectedIntegration] = useState<SelectedIntegration>({id: 0, name: ''})
+  const [selectedMethod, setSelectedMethod] = useState<string>('')
+  const [pathValue, setPathValue] = useState(path || "")
   const [isPathValid, setIsPathValid] = useState(true)
+  const [isValidMethod, setIsValidMethod] = useState(true)
+  const [isValidIntegration, setIsValidIntegration] = useState(true)
+  const [isUniqueError, setIsUniqueError] = useState(false)
   const queryClient = useQueryClient()
-  
-  useEffect(() => {
-    if (integrations && integrations.length > 0) {
-      setSelectedIntegration(integrations[0])
-    }
-  },[integrations])
 
   async function handleOnSubmit() {
-    
+    let isValid = true
     if (!pathValue) {
       setIsPathValid(false)
-      return
+      isValid = false
     }
-
     if (!selectedIntegration?.id) {
-      return
+      setIsValidIntegration(false)
+      isValid = false
+    }
+    if (!selectedMethod) {
+      setIsValidMethod(false)
+      isValid = false
     }
 
-    apiCreateEndpoint.mutate({method: selectedMethod, path: pathValue, integrationId: selectedIntegration.id}, {
-      onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ["endpoints"]})
-        setIsPathValid(true)
-        setIsUniqueError(false)
-        toggleModal()
-      },
-      onError(error) {
-        if (error instanceof ApiError) {
-          if (error.errorCode == API_ERROR.UNIQUE_OR_REQUIRED_FIELD) {
-            setIsUniqueError(true)
+    if (!isValid) return
+
+    if (isEditForm && id) {
+      apiEditEndpoint.mutate({id: id,  method: selectedMethod, path: pathValue, integrationId: selectedIntegration.id}, {
+        onSuccess: () => {
+          queryClient.invalidateQueries({ queryKey: ["endpoints"] })
+          resetValidations()
+          toggleModal()
+        },
+        onError(error) {
+          if (error instanceof ApiError) {
+            if (error.errorCode == API_ERROR.UNIQUE_OR_REQUIRED_FIELD) {
+              setIsUniqueError(true)
+            }
           }
-        }
-      },
-    })
+        },
+      })
+    } else {
+      apiCreateEndpoint.mutate({method: selectedMethod, path: pathValue, integrationId: selectedIntegration.id}, {
+        onSuccess: () => {
+          queryClient.invalidateQueries({ queryKey: ["endpoints"] })
+          resetValidations()
+          toggleModal()
+        },
+        onError(error) {
+          if (error instanceof ApiError) {
+            if (error.errorCode == API_ERROR.UNIQUE_OR_REQUIRED_FIELD) {
+              setIsUniqueError(true)
+            }
+          }
+        },
+      })
+    }
   }
 
+  function resetValidations() {
+    setIsPathValid(true)
+    setIsUniqueError(false)
+    setIsValidIntegration(true)
+    setIsValidMethod(true)
+  }
+
+  function handleIntegrationOnChange(selectedIntegration: SelectedIntegration) {
+    setIsValidIntegration(true)
+    setSelectedIntegration(selectedIntegration)
+  }
+  
+  function handleMethodOnChange(method: string) {
+    setIsValidMethod(true)
+    setSelectedMethod(method)
+  }
+
+  // Adds "/" prefix to path
   function validatePath(value: string) {
     if (!value) {
       setIsPathValid(false)
@@ -72,26 +122,45 @@ export default function CreateEndpointModal({ show, toggleModal }: { show: boole
     setPathValue(value)
   }
 
-  if (!integrations || integrations.length == 0 ) {
-    return (
-      <>
-        Loading...
-      </>
-    )
-  }
+  useEffect(() => {
+    if (!isEditForm) {
+      setSelectedIntegration({id: 0, name: ''})
+      setSelectedMethod('')
+      setPathValue('')
+    }
+  },[show])
+
+  useEffect(() => {
+    if (integrationId 
+        && integrationName
+        && method
+        && path
+      ) {
+      setSelectedIntegration({id: integrationId, name: integrationName})
+      setSelectedMethod(method)
+      setPathValue(path)
+    }
+  }, [integrationId, integrationName, method, path])
+
   
   return (
     <Modal cancelText='Cancel' submitText='Save' handleOnSubmit={handleOnSubmit} show={show} toggleModal={toggleModal}>
-      <h1 className="text-xl font-semibold text-gray-900 pb-5">Create Endpoint</h1>
+      <h1 className="text-xl font-semibold text-gray-900 pb-5">{isEditForm ? "Edit" : "Create" } Endpoint</h1>
 
       {/* Select Integration */}
-      <Listbox value={selectedIntegration} onChange={setSelectedIntegration}>
+      <Listbox value={selectedIntegration} onChange={handleIntegrationOnChange}>
       {({ open }) => (
         <>
           <Listbox.Label className="block text-sm font-medium text-gray-700">Integration</Listbox.Label>
           <div className="relative mt-1">
-            <Listbox.Button className="relative w-full cursor-default rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 text-left shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm">
-              <span className="block truncate">{selectedIntegration?.name}</span>
+          <Listbox.Button className={classNames(
+            isValidIntegration ? "border-gray-300 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500" : "border-red-300 pr-10 text-red-900 placeholder-red-300 focus:border-red-500 focus:outline-none focus:ring-red-500",
+            "relative w-full cursor-default rounded-md border bg-white py-2 pl-3 pr-10 text-left sm:text-sm"
+            )}>
+            <span className={classNames(
+                selectedIntegration?.name ? "" : "text-gray-400", 
+                isValidIntegration ? "" : "text-red-300",
+                "block truncate")}>{selectedIntegration?.name || "Select Integration" }</span>
               <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                 <ChevronUpDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
               </span>
@@ -179,13 +248,19 @@ export default function CreateEndpointModal({ show, toggleModal }: { show: boole
 
       {/* HTTP Method */}
 
-      <Listbox value={selectedMethod} onChange={setSelectedMethod}>
+      <Listbox value={selectedMethod} onChange={handleMethodOnChange}>
       {({ open }) => (
         <>
           <Listbox.Label className="block mt-5 text-sm font-medium text-gray-700">HTTP Method</Listbox.Label>
           <div className="relative mt-1">
-            <Listbox.Button className="relative w-full cursor-default rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 text-left shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm">
-              <span className="block truncate">{selectedMethod}</span>
+          <Listbox.Button className={classNames(
+            isValidMethod ? "border-gray-300 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500" : "border-red-300 pr-10 text-red-900 placeholder-red-300 focus:border-red-500 focus:outline-none focus:ring-red-500",
+            "relative w-full cursor-default rounded-md border bg-white py-2 pl-3 pr-10 text-left sm:text-sm"
+            )}>
+              <span className={classNames(
+                selectedMethod ? "" : "text-gray-400", 
+                isValidMethod ? "" : "text-red-300",
+                "block truncate")}>{selectedMethod || "Select HTTP Method"}</span>
               <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                 <ChevronUpDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
               </span>
@@ -199,7 +274,7 @@ export default function CreateEndpointModal({ show, toggleModal }: { show: boole
               leaveTo="opacity-0"
             >
               <Listbox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                {METHODS.map((method) => (
+                {Methods.map((method) => (
                   <Listbox.Option
                     key={method}
                     className={({ active }) =>
