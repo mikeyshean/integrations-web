@@ -1,5 +1,5 @@
 import { SyntheticEvent } from "react";
-import { classNames } from "./utils";
+import { classNames } from "../screens/utils";
 
 export function Button({ buttonText, isLoading, onClick, isDisabled=false, ...props }: { buttonText: string, isLoading: boolean, isDisabled?: boolean, onClick: (e: SyntheticEvent<Element, Event>) => void, [x:string]: any }) {
   return (

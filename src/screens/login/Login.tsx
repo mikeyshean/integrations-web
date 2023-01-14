@@ -1,8 +1,7 @@
 import { SyntheticEvent, useState } from "react"
 import mapperImage from "../../images/logos/apimapper.png"
 import Image from "next/image"
-import { Loading } from "../Loading"
-import { Button } from "../Button"
+import { Button } from "@/components/Button"
 import Link from "next/link"
 
 
