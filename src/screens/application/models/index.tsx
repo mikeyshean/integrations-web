@@ -1,4 +1,4 @@
-import { classNames } from "screens/utils";
+import { classNames } from "@/components/utils";
 import { useState } from "react";
 import CreateModelTab from "./CreateModelTab";
 import { ListModelsTab } from "./ListModelsTab";

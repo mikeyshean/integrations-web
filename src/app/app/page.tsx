@@ -1,8 +1,8 @@
 "use client"
-import Shell from 'screens/application/Shell';
+import App from 'screens/application/Index';
 
 export default function AppPage() {
     return (
-        <Shell />
+        <App />
     )
 }

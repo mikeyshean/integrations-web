@@ -6,7 +6,7 @@ import { api } from '@/api'
 import { useQueryClient } from '@tanstack/react-query'
 import { JSONEditor } from '../json-editor/JsonEditor'
 import { Button } from '@/components/Button'
-import { classNames } from 'screens/utils'
+import { classNames } from '@/components/utils'
 
 
 type SelectEndpoint = { id: number, path: string, method: string }

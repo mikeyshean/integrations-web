@@ -13,7 +13,7 @@ import IntegrationsPage from './integrations'
 import { useAuthContext } from '@/context/AuthContext'
 import AppHome from './Home'
 import { ModelsPage } from './models'
-import { classNames } from '../utils'
+import { classNames } from '../../components/utils'
 
 const sidebarNavigation = [
   { name: 'Integrations', href: '#', icon: Squares2X2Icon, current: false },
@@ -23,7 +23,7 @@ const sidebarNavigation = [
   { name: 'Sign out', href: '#', icon: ArrowLeftOnRectangleIcon, current: false },
 ]
 
-export default function Shell() {
+export default function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [currentTab, setCurrentTab] = useState('Home')
   const { logoutUser } = useAuthContext()
@@ -190,7 +190,7 @@ export default function Shell() {
 
             {/* Secondary column (hidden on smaller screens) */}
             {/* <aside className="hidden w-96 overflow-y-auto border-l border-gray-200 bg-white lg:block"> */}
-              {/* Your content */}
+              {/* Content */}
             {/* </aside> */}
           </div>
         </div>

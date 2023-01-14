@@ -1,10 +1,11 @@
 import { api } from "@/api"
-import { classNames } from "screens/utils"
+import { classNames } from "@/components/utils"
 import Link from "next/link"
 import { useState } from "react"
 import CreateIntegrationModal from "./CreateIntegrationModal"
 import {  PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline'
 import { useQueryClient } from "@tanstack/react-query"
+import Modal from "@/components/Forms/Modal"
 
 
 export function ListIntegrationTab() {

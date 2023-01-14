@@ -1,5 +1,5 @@
 import { api } from "@/api"
-import { classNames } from "screens/utils"
+import { classNames } from "@/components/utils"
 import Link from "next/link"
 import { useState } from "react"
 import {  PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline'

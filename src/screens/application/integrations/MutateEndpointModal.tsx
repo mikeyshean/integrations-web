@@ -2,10 +2,10 @@ import { useEffect, useState, Fragment } from 'react'
 import { Listbox, Transition } from '@headlessui/react'
 import { ExclamationCircleIcon } from '@heroicons/react/24/solid'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
-import Modal from '../Modal'
+import Modal from '@/components/Forms/ModalContainer'
 import { api } from '@/api'
 import { useQueryClient } from '@tanstack/react-query'
-import { classNames } from 'screens/utils'
+import { classNames } from '@/components/utils'
 import { ApiError } from 'api/errors'
 import { API_ERROR } from '@/constants'
 
@@ -144,7 +144,7 @@ export default function MutateEndpointModal(
 
   
   return (
-    <Modal cancelText='Cancel' submitText='Save' handleOnSubmit={handleOnSubmit} show={show} toggleModal={toggleModal}>
+    <Modal cancelText='Cancel' submitText='Save' onSubmit={handleOnSubmit} show={show} toggleModal={toggleModal}>
       <h1 className="text-xl font-semibold text-gray-900 pb-5">{isEditForm ? "Edit" : "Create" } Endpoint</h1>
 
       {/* Select Integration */}
