@@ -19,6 +19,7 @@ export default function CreateIntegrationModal({ show, toggleModal }: { show: bo
   const [nameValue, setNameValue] = useState('')
   const [domainValue, setDomainValue] = useState('')
   const [isNameValid, setIsNameValid] = useState(true)
+  const [isValidCategory, setIsValidCategory] = useState(true)
   const [isUrlValid, setIsUrlValid] = useState(true)
   const [isUniqueError, setIsUniqueError] = useState(false)
   const queryClient = useQueryClient()
@@ -26,8 +27,8 @@ export default function CreateIntegrationModal({ show, toggleModal }: { show: bo
   // TODO: Get rid of list like MutateendpointModal (show default text in Selects)
   useEffect(() => {
     if (categories && categories.length > 0) {
-      const category = categories[0]
-      setSelectedCategory({key: category.id, value: category.name})
+      // const category = categories[0]
+      // setSelectedCategory({key: category.id, value: category.name})
       const items = categories.map((category) => { return {key: category.id, value: category.name }})
       setCategoryItems(items)
     }
@@ -44,28 +45,32 @@ export default function CreateIntegrationModal({ show, toggleModal }: { show: bo
       setIsUrlValid(false)
       isValid = false
     }
+    
+    if (!categoryId) {
+      setIsValidCategory(false)
+    }
 
     if (!isValid) {
       return
     }
 
-    if (categoryId) {
-      apiCreateIntegration.mutate({name: nameValue, categoryId: categoryId as number, domain: domainValue}, {
-        onSuccess: () => {
-          queryClient.invalidateQueries({ queryKey: ["integrations"]})
-          setIsUniqueError(false)
-          setIsNameValid(true)
-          toggleModal()
-        },
-        onError(error) {
-          if (error instanceof ApiError) {
-            if (error.errorCode == API_ERROR.UNIQUE_OR_REQUIRED_FIELD) {
-              setIsUniqueError(true)
-            }
+
+    apiCreateIntegration.mutate({name: nameValue, categoryId: categoryId as number, domain: domainValue}, {
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ["integrations"]})
+        setIsUniqueError(false)
+        setIsNameValid(true)
+        setIsValidCategory(true)
+        toggleModal()
+      },
+      onError(error) {
+        if (error instanceof ApiError) {
+          if (error.errorCode == API_ERROR.UNIQUE_OR_REQUIRED_FIELD) {
+            setIsUniqueError(true)
           }
-        },
-      })
-    }
+        }
+      },
+    })
   }
 
   function validateIntegrationName(value: string) {
@@ -86,17 +91,9 @@ export default function CreateIntegrationModal({ show, toggleModal }: { show: bo
     }
   }
 
-  if (!categories || categories.length == 0 ) {
-    return (
-      <>
-        Loading...
-      </>
-    )
-  }
-  
   return (
     <Modal cancelText="Cancel" submitText="Save" onSubmit={handleOnSubmit} show={show} toggleModal={toggleModal}>
-      <h1 className="text-xl font-semibold text-gray-900 pb-5">Create Integration</h1>
+      <h1 className="text-xl font-semibold text-gray-900">Create Integration</h1>
 
       {/* Integration Name */}
       <Input 
@@ -112,7 +109,9 @@ export default function CreateIntegrationModal({ show, toggleModal }: { show: bo
       </Input>
       
       {/* Category List Box */}
-      <Select selected={selectedCategory} onChange={setSelectedCategory} name="Category" items={categoryItems} />
+      <Select selected={selectedCategory} onChange={setSelectedCategory} name="Category" items={categoryItems} isValid={isValidCategory}>
+        <ValidationMessage message="Category is required." isValid={isValidCategory} id="category-error" />
+      </Select>
 
       {/* Domain */}
       <InputWithAddon

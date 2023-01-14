@@ -5,8 +5,18 @@ import { classNames } from "../utils";
 
 
 export type SelectItem = {key: string|number, value: string }
+export const EmptySelectItem = {key: 0, value: '' }
 
-export function Select({ selected, onChange, items, name }: {selected: SelectItem, onChange: (item: SelectItem) => void, items: SelectItem[], name: string }) {
+export function Select(
+  { selected, onChange, items, name, isValid, children }:
+  {
+    selected: SelectItem,
+    onChange: (item: SelectItem) => void,
+    items: SelectItem[],
+    name: string,
+    isValid: boolean,
+    children?: React.ReactNode
+  }) {
   
   return (
     <Listbox value={selected} onChange={onChange}>
@@ -14,8 +24,14 @@ export function Select({ selected, onChange, items, name }: {selected: SelectIte
         <>
           <Listbox.Label className="block text-sm font-medium mt-5 text-gray-700">{name}</Listbox.Label>
           <div className="relative mt-1">
-            <Listbox.Button className="relative w-full cursor-default rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 text-left shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm">
-              <span className="block truncate">{selected.value || "Select " + name}</span>
+          <Listbox.Button className={classNames(
+            isValid ? "border-gray-300 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500" : "border-red-300 pr-10 text-red-900 placeholder-red-300 focus:border-red-500 focus:outline-none focus:ring-red-500",
+            "relative w-full cursor-default rounded-md border bg-white py-2 pl-3 pr-10 text-left sm:text-sm"
+            )}>
+            <span className={classNames(
+                selected?.key ? "" : "text-gray-400", 
+                isValid ? "" : "text-red-300",
+                "block truncate")}>{selected?.value || "Select "+name }</span>
               <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                 <ChevronUpDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
               </span>
@@ -63,6 +79,7 @@ export function Select({ selected, onChange, items, name }: {selected: SelectIte
               </Listbox.Options>
             </Transition>
           </div>
+          {children} 
         </>
       )}
     </Listbox>
