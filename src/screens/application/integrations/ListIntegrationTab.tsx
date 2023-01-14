@@ -5,10 +5,9 @@ import { useState } from "react"
 import CreateIntegrationModal from "./CreateIntegrationModal"
 import {  PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline'
 import { useQueryClient } from "@tanstack/react-query"
-import Modal from "@/components/Forms/Modal"
 
 
-export function ListIntegrationTab() {
+export default function ListIntegrationTab() {
   const { data: integrations } = api.integrations.useList()
   const apiDeleteIntegration= api.integrations.useDelete()
   const [showModal, setShowModal] = useState(false)
@@ -27,7 +26,7 @@ export function ListIntegrationTab() {
   }
 
   return (
-    <div className="mt-5 md:col-span-2 md:mt-0">
+    <div className="mt-5 md:col-span-2 md:mt-10">
       <div className="px-4 sm:px-6 lg:px-8">
         <CreateIntegrationModal show={showModal} toggleModal={toggleModal} />
         <div className="sm:flex sm:items-center">

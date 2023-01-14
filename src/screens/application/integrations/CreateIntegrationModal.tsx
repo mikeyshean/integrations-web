@@ -122,7 +122,7 @@ export default function CreateIntegrationModal({ show, toggleModal }: { show: bo
         describedBy="domain-error"
         name="api-domain"
         addon="https://"
-        label="Domain (Base domain for AP2"
+        label="Domain (Base domain for API)"
       >
         <ValidationMessage isValid={isUrlValid} message="Enter a valid domain." id="domain-error"/>
       </InputWithAddon>

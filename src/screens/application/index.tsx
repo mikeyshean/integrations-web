@@ -5,6 +5,8 @@ import {
   Squares2X2Icon,
   BeakerIcon,
   XMarkIcon,
+  ShareIcon,
+  RssIcon,
   ArrowLeftOnRectangleIcon
 } from '@heroicons/react/24/outline'
 import mapperImage from "../../images/logos/apimapper.png"
@@ -14,6 +16,7 @@ import { useAuthContext } from '@/context/AuthContext'
 import AppHome from './Home'
 import { ModelsPage } from './models'
 import { classNames } from '@/components/utils'
+import EndpointsPage from './endpoints'
 
 type NavType = {
   name: string,
@@ -26,7 +29,8 @@ type NavType = {
 }
 
 const sidebarNavigation = [
-  { name: 'Integrations', icon: Squares2X2Icon, current: false, component: <IntegrationsPage />},
+  { name: 'Integrations', icon: ShareIcon, current: false, component: <IntegrationsPage />},
+  { name: 'Endpoints', icon: RssIcon, current: false, component: <EndpointsPage />},
   { name: 'Models', icon: Squares2X2Icon, current: false, component: <ModelsPage /> },
   { name: 'Mapper', icon: WrenchScrewdriverIcon, current: true },
   { name: 'Test', icon: BeakerIcon, current: false, component: null },

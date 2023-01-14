@@ -1,5 +1,5 @@
 "use client"
-import App from 'screens/application/index';
+import App from 'screens/application';
 
 export default function AppPage() {
     return (

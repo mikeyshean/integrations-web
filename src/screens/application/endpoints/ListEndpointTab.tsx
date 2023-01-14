@@ -7,7 +7,7 @@ import { useQueryClient } from "@tanstack/react-query"
 import MutateEndpointModal from "./MutateEndpointModal"
 
 
-export function ListEndpointTab() {
+export default function ListEndpointTab() {
   const { data: endpoints } = api.integrations.useListEndpoints()
   const apiDeleteEndpoint= api.integrations.useDeleteEndpoint()
   const [showModal, setShowModal] = useState(false)
@@ -58,7 +58,7 @@ export function ListEndpointTab() {
   }
 
   return (
-    <div className="mt-5 md:col-span-2 md:mt-0">
+    <div className="mt-5 md:col-span-2 md:mt-10">
       <div className="px-4 sm:px-6 lg:px-8">
         <MutateEndpointModal
           show={showModal}
