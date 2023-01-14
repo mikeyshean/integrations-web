@@ -1,5 +1,5 @@
 import { Fragment, useEffect, useState } from 'react'
-import { Dialog, Menu, Transition } from '@headlessui/react'
+import { Dialog, Transition } from '@headlessui/react'
 import {
   WrenchScrewdriverIcon,
   Squares2X2Icon,
