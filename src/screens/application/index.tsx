@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from 'react'
+import { Fragment, SVGProps, useEffect, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import {
   WrenchScrewdriverIcon,
@@ -13,27 +13,39 @@ import IntegrationsPage from './integrations'
 import { useAuthContext } from '@/context/AuthContext'
 import AppHome from './Home'
 import { ModelsPage } from './models'
-import { classNames } from '../../components/utils'
+import { classNames } from '@/components/utils'
+
+type NavType = {
+  name: string,
+  icon: ((props: SVGProps<SVGSVGElement> & {
+      title?: string | undefined
+      titleId?: string | undefined
+  }) => JSX.Element)|null,
+  current: boolean, 
+  component?: React.ReactNode
+}
 
 const sidebarNavigation = [
-  { name: 'Integrations', href: '#', icon: Squares2X2Icon, current: false },
-  { name: 'Models', href: '#', icon: Squares2X2Icon, current: false },
-  { name: 'Mapper', href: '#', icon: WrenchScrewdriverIcon, current: true },
-  { name: 'Test', href: '#', icon: BeakerIcon, current: false },
-  { name: 'Sign out', href: '#', icon: ArrowLeftOnRectangleIcon, current: false },
+  { name: 'Integrations', icon: Squares2X2Icon, current: false, component: <IntegrationsPage />},
+  { name: 'Models', icon: Squares2X2Icon, current: false, component: <ModelsPage /> },
+  { name: 'Mapper', icon: WrenchScrewdriverIcon, current: true },
+  { name: 'Test', icon: BeakerIcon, current: false, component: null },
+  { name: 'Sign out', icon: ArrowLeftOnRectangleIcon, current: false, component: null },
 ]
+
+const homeTab =  { name: 'Home', icon: null, current: false, component: <AppHome /> }
 
 export default function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const [currentTab, setCurrentTab] = useState('Home')
+  const [currentTab, setCurrentTab] = useState<NavType>(homeTab)
   const { logoutUser } = useAuthContext()
 
   useEffect(() => {
-    if (currentTab == "Sign out") {
+    if (currentTab.name == "Sign out") {
       logoutUser()
     }
     sidebarNavigation.forEach((tab) => {
-      if (tab.name === currentTab) {
+      if (tab.name === currentTab.name) {
         tab.current = true
       } else {
         tab.current = false
@@ -49,10 +61,10 @@ export default function App() {
           <div className="flex w-full h-full flex-col items-center py-6">
             <div className="w-full space-y-1 px-2">
               <button className={classNames(
-                   currentTab == "Home" ? 'bg-indigo-800 text-white' : 'text-indigo-100 hover:bg-indigo-800 hover:text-white',
+                   currentTab.name == "Home" ? 'bg-indigo-800 text-white' : 'text-indigo-100 hover:bg-indigo-800 hover:text-white',
                     'group w-full p-3 rounded-md flex flex-col items-center text-xs font-medium'
                   )}>
-                <Image src={mapperImage} priority alt="API Mapper" height={50}  onClick={() => { setCurrentTab("Home") }}/>
+                <Image src={mapperImage} priority alt="API Mapper" height={50}  onClick={() => { setCurrentTab(homeTab) }}/>
               </button>
             </div>
 
@@ -62,16 +74,16 @@ export default function App() {
               {sidebarNavigation.map((item, itemIdx) => (
                 <div key={item.name} className={itemIdx == sidebarNavigation.length - 2 ? "flex-grow" : ""}>
                   <button
-                    onClick={() => { setCurrentTab(item.name) }}
+                    onClick={() => { setCurrentTab(item) }}
                     className={classNames(
-                      item.name == currentTab ? 'bg-indigo-800 text-white' : 'text-indigo-100 hover:bg-indigo-800 hover:text-white',
+                      item.name == currentTab.name ? 'bg-indigo-800 text-white' : 'text-indigo-100 hover:bg-indigo-800 hover:text-white',
                       'group w-full p-3 rounded-md flex flex-col items-center text-xs font-medium'
                     )}
-                    aria-current={item.name == currentTab ? 'page' : undefined}
+                    aria-current={item.name == currentTab.name ? 'page' : undefined}
                   >
                     <item.icon
                       className={classNames(
-                        item.name == currentTab ? 'text-white' : 'text-indigo-300 group-hover:text-white',
+                        item.name == currentTab.name ? 'text-white' : 'text-indigo-300 group-hover:text-white',
                         'h-6 w-6'
                       )}
                       aria-hidden="true"
@@ -131,7 +143,7 @@ export default function App() {
                     </div>
                   </Transition.Child>
                   <div className="flex flex-shrink-0 items-center px-4">
-                    <Image src={mapperImage} priority alt="API Mapper" height={50}  onClick={() => { setCurrentTab("Home") }}/>
+                    <Image src={mapperImage} priority alt="API Mapper" height={50}  onClick={() => { setCurrentTab(homeTab)}}/>
                   </div>
                   <div className="mt-5 h-0 flex-1 overflow-y-auto px-2">
                     <nav className="flex h-full flex-col">
@@ -139,18 +151,18 @@ export default function App() {
                         {sidebarNavigation.map((item) => (
                           <a
                             key={item.name}
-                            href={item.href}
+                            href="#"
                             className={classNames(
-                              item.name == currentTab
+                              item.name == currentTab.name
                                 ? 'bg-indigo-800 text-white'
                                 : 'text-indigo-100 hover:bg-indigo-800 hover:text-white',
                               'group py-2 px-3 rounded-md flex items-center text-sm font-medium'
                             )}
-                            aria-current={item.name == currentTab ? 'page' : undefined}
+                            aria-current={item.name == currentTab.name ? 'page' : undefined}
                           >
                             <item.icon
                               className={classNames(
-                                item.name == currentTab ? 'text-white' : 'text-indigo-300 group-hover:text-white',
+                                item.name == currentTab.name ? 'text-white' : 'text-indigo-300 group-hover:text-white',
                                 'mr-3 h-6 w-6'
                               )}
                               aria-hidden="true"
@@ -182,9 +194,7 @@ export default function App() {
                 <h1 id="primary-heading" className="sr-only">
                   Photos
                 </h1>
-                { currentTab == "Integrations" && <IntegrationsPage />}
-                { currentTab == "Home" && <AppHome />}
-                { currentTab == "Models" && <ModelsPage />}
+                { currentTab.component }
               </section>
             </main>
 
