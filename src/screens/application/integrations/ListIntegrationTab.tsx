@@ -1,8 +1,7 @@
 import { api } from "@/api"
 import { classNames } from "@/components/utils"
-import Link from "next/link"
 import { useState } from "react"
-import CreateIntegrationModal from "./CreateIntegrationModal"
+import MutateIntegrationModal from "./MutateIntegrationModal"
 import {  PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline'
 import { useQueryClient } from "@tanstack/react-query"
 
@@ -11,6 +10,13 @@ export default function ListIntegrationTab() {
   const { data: integrations } = api.integrations.useList()
   const apiDeleteIntegration= api.integrations.useDelete()
   const [showModal, setShowModal] = useState(false)
+  const [isEditForm, setIsEditForm] = useState(false)
+  const [editIntegrationId, setEditIntegrationId] = useState<number|null>(null)
+  const [editIntegrationName, setEditIntegrationName] = useState<string|null>(null)
+  const [editCategoryName, setEditCategoryName] = useState<string|null>(null)
+  const [editCategoryId, setEditCategoryId] = useState<number|null>(null)
+  const [editDomain, setEditDomain] = useState<string|null>(null)
+  const [editDomainId, setEditDomainId] = useState<number|null>(null)
   const queryClient =  useQueryClient()
   
   function toggleModal() {
@@ -25,10 +31,48 @@ export default function ListIntegrationTab() {
     })
   }
 
+  function handleEditForm(
+    id: number,
+    integrationName: string,
+    categoryId: number,
+    categoryName: string,
+    domain: string,
+    domainId: number
+  ) {
+    setEditIntegrationId(id)
+    setEditIntegrationName(integrationName)
+    setEditCategoryName(categoryName)
+    setEditCategoryId(categoryId)
+    setEditDomain(domain)
+    setEditDomainId(domainId)
+    setIsEditForm(true)
+    setShowModal(true)
+  }
+
+  function handleCreateForm() {
+    setEditIntegrationId(null)
+    setEditIntegrationName(null)
+    setEditCategoryName(null)
+    setEditCategoryId(null)
+    setEditDomain(null)
+    setIsEditForm(false)
+    setShowModal(true)
+  }
+
   return (
     <div className="mt-5 md:col-span-2 md:mt-10">
       <div className="px-4 sm:px-6 lg:px-8">
-        <CreateIntegrationModal show={showModal} toggleModal={toggleModal} />
+        <MutateIntegrationModal
+          id={editIntegrationId}
+          integrationName={editIntegrationName}
+          categoryId={editCategoryId}
+          categoryName={editCategoryName}
+          domain={editDomain}
+          domainId={editDomainId}
+          show={showModal}
+          toggleModal={toggleModal}
+          isEditForm={isEditForm}
+        />
         <div className="sm:flex sm:items-center">
           <div className="sm:flex-auto">
             <h1 className="text-2xl font-semibold text-gray-900">Integrations</h1>
@@ -39,7 +83,7 @@ export default function ListIntegrationTab() {
           <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
             <button
               type="button"
-              onClick={() => {setShowModal(true)}}
+              onClick={handleCreateForm}
               className="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto"
             >
               Add integration
@@ -126,7 +170,7 @@ export default function ListIntegrationTab() {
                             'flex justify-end whitespace-nowrap py-4 pr-4 pl-3 text-right text-sm font-medium sm:pr-6 lg:pr-8'
                           )}
                         >
-                          <Link href="#" className="text-indigo-600 hover:text-indigo-900">
+                          <button onClick={() => handleEditForm(integration.id, integration.name, integration.category.id, integration.category.name, integration.domains[0]?.domain, integration.domains[0]?.id)} className="text-indigo-600 hover:text-indigo-900">
                             <PencilSquareIcon
                                 className={classNames(
                                   'text-indigo-300 hover:text-indigo-500',
@@ -135,7 +179,7 @@ export default function ListIntegrationTab() {
                                 aria-hidden="true"
                               />
                               <span className="sr-only">, Edit {integration.name}</span>
-                          </Link>
+                          </button>
                           <button onClick={() => {handleDelete(integration.id)}} className="text-indigo-600 hover:text-indigo-900 pl-4">
                             <TrashIcon
                                 className={classNames(

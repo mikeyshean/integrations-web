@@ -54,6 +54,15 @@ export const integationsRouter =  {
     return useMutation({ mutationKey: ['integrations'], mutationFn: mutationFn })
   },
 
+  useEdit: () => {
+    const mutationFn = async (data: { id: number,  name: string, categoryId: number, domainId: number, domain: string}) => { 
+      const putData = { ...data, category_id: data.categoryId, domain_id: data.domainId }
+      const response = await fetcher(`/api/integrations/${data.id}`, { method: "PATCH", data: putData })
+      return response
+    }
+    return useMutation({ mutationKey: ['integrations'], mutationFn: mutationFn })
+  },
+
   useCreateEndpoint: () => {
     const mutationFn = async (data: {method: string, path: string, integrationId: number}) => { 
       const { integrationId, ...postData } = data

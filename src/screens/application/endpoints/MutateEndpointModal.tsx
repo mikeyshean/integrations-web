@@ -1,11 +1,7 @@
-import { useEffect, useState, Fragment } from 'react'
-import { Listbox, Transition } from '@headlessui/react'
-import { ExclamationCircleIcon } from '@heroicons/react/24/solid'
-import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
+import { useEffect, useState } from 'react'
 import Modal from '@/components/Forms/ModalContainer'
 import { api } from '@/api'
 import { useQueryClient } from '@tanstack/react-query'
-import { classNames } from '@/components/utils'
 import { ApiError } from 'api/errors'
 import { API_ERROR } from '@/constants'
 import { Select, SelectItem, EmptySelectItem } from '@/components/Forms/Select'
@@ -22,16 +18,16 @@ const Methods = [
 ] as const
 
 export default function MutateEndpointModal(
-  { show, toggleModal, isEditForm, id, integrationId, integrationName, path, method}: 
+  { id, show, toggleModal, isEditForm, integrationId, integrationName, path, method}: 
   {
-     show: boolean, 
-     toggleModal: () => void,
-     isEditForm: boolean,
-     id: number|null,
-     integrationId: number|null,
-     integrationName: string|null,
-     path: string|null,
-     method: string|null
+    id: number|null,
+    show: boolean, 
+    toggleModal: () => void,
+    isEditForm: boolean,
+    integrationId: number|null,
+    integrationName: string|null,
+    path: string|null,
+    method: string|null
   }) {
   const { data: integrations } = api.integrations.useList()
   const apiCreateEndpoint = api.integrations.useCreateEndpoint()
@@ -158,10 +154,10 @@ export default function MutateEndpointModal(
 
   useEffect(() => {
     if (integrationId 
-        && integrationName
-        && method
-        && path
-      ) {
+      && integrationName
+      && method
+      && path
+    ) {
       setSelectedIntegration({key: integrationId, value: integrationName})
       setSelectedMethod({key: method, value: method})
       setPathValue(path)
@@ -174,7 +170,9 @@ export default function MutateEndpointModal(
       <h1 className="text-xl font-semibold text-gray-900">{isEditForm ? "Edit" : "Create" } Endpoint</h1>
 
       {/* Select Integration */}
-      <Select selected={selectedIntegration} onChange={handleIntegrationOnChange} items={integrationItems} name="Integration" isValid={isValidIntegration}/>
+      <Select selected={selectedIntegration} onChange={handleIntegrationOnChange} items={integrationItems} name="Integration" isValid={isValidIntegration}>
+        <ValidationMessage message='Integration is required' isValid={isValidIntegration} id="integration-error" />
+      </Select>
       
       {/* Path */}
       <Input name="endpoint-path" value={pathValue} label="Path" isValid={isPathValid} onChange={validatePath} placeholder="/employees" describedBy='path-error'>
@@ -182,8 +180,9 @@ export default function MutateEndpointModal(
       </Input>
 
       {/* HTTP Method */}
-
-      <Select selected={selectedMethod} onChange={handleMethodOnChange} items={methodItems} name="HTTP MEthod" isValid={isValidMethod} />
+      <Select selected={selectedMethod} onChange={handleMethodOnChange} items={methodItems} name="HTTP MEthod" isValid={isValidMethod}>
+        <ValidationMessage isValid={isValidMethod} message="HTTP Method is required." id="method-error"/>
+      </Select>
       <ValidationMessage isValid={!isUniqueError} message="Integration, Path, and HTTP Method must be a unique combination." id="unique-error"/>
 
     </Modal>

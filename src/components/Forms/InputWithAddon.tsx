@@ -1,7 +1,7 @@
 import { classNames } from "../utils";
 
 export function InputWithAddon(
-  { isValid, onChange, placeholder, describedBy, name, addon, label, children }:
+  { isValid, onChange, placeholder, value, describedBy, name, addon, label, children }:
   { 
     isValid: boolean,
     onChange: (value: string) => void,
@@ -10,6 +10,7 @@ export function InputWithAddon(
     name: string,
     addon: string,
     label: string,
+    value: string,
     children?: React.ReactNode
   }) {
   
@@ -34,6 +35,7 @@ export function InputWithAddon(
           placeholder={placeholder}
           onChange={(e) => onChange(e.target.value)}
           aria-invalid="true"
+          value={value}
           aria-describedby={describedBy}
         />
       </div>
