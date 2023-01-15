@@ -74,7 +74,7 @@ export default function ListEndpointTab() {
           <div className="sm:flex-auto">
             <h1 className="text-2xl font-semibold text-gray-900">API Endpoints</h1>
             <p className="mt-2 text-sm text-gray-700">
-              List of all API endpoints and their associated integrations
+              List of all API endpoints with their URL path, HTTP method, and associated integration and model.
             </p>
           </div>
           <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">

@@ -180,7 +180,7 @@ export default function MutateEndpointModal(
       </Input>
 
       {/* HTTP Method */}
-      <Select selected={selectedMethod} onChange={handleMethodOnChange} items={methodItems} name="HTTP MEthod" isValid={isValidMethod}>
+      <Select selected={selectedMethod} onChange={handleMethodOnChange} items={methodItems} name="HTTP Method" isValid={isValidMethod}>
         <ValidationMessage isValid={isValidMethod} message="HTTP Method is required." id="method-error"/>
       </Select>
       <ValidationMessage isValid={!isUniqueError} message="Integration, Path, and HTTP Method must be a unique combination." id="unique-error"/>

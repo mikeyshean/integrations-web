@@ -29,7 +29,7 @@ const sampleData = {
 
 const defaultJson = JSON.stringify(sampleData, null, 2)
 
-export function JSONEditor({updateJsonRef, updateIsValidJson }: {updateJsonRef: (json: string) => void, updateIsValidJson: (isValid: boolean) => void}) {
+export default function JSONEditor({updateJsonRef, updateIsValidJson }: {updateJsonRef: (json: string) => void, updateIsValidJson: (isValid: boolean) => void}) {
   const editorRef = useRef<editor.IStandaloneCodeEditor|null>(null);
  
 

@@ -37,7 +37,7 @@
     "**/*.tsx",
     ".next/types/**/*.ts", 
     "src/screens"
-  ],
+, "src/components/JsonEditor"  ],
   "exclude": [
     "node_modules"
   ]
