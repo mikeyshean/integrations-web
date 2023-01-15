@@ -35,6 +35,12 @@ const EndpointSchema = z.object({
 
 const EndpointsSchema = EndpointSchema.array()
 
+const EndpointModelsSchema = z.object({
+  id: z.number(),
+  model: z.object({id: z.number(), name: z.string()}).nullable(),
+  integration: BasicIntegrationSchema
+}).array()
+
 
 export const integationsRouter =  {
   useList: () => {
@@ -78,6 +84,14 @@ export const integationsRouter =  {
       return EndpointsSchema.parse(response)
     }
     return useQuery({ queryKey: ['integrations', id, 'endpoints'], queryFn: queryFn, ...args })
+  },
+  
+  useGetEndpointModels:  ({id, ...args }: {id: number, [key: string]: any }) => {
+    const queryFn = async () => { 
+      const response = await fetcher(`/api/endpoints/${id}/models`)
+      return EndpointModelsSchema.parse(response)
+    }
+    return useQuery({ queryKey: ['endpoints', id], queryFn: queryFn, ...args })
   },
 
   useListCategories: () => {

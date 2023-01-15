@@ -17,6 +17,7 @@ import AppHome from './Home'
 import { ModelsPage } from './models'
 import { classNames } from '@/components/utils'
 import EndpointsPage from './endpoints'
+import MapperPage from './mapper'
 
 type NavType = {
   name: string,
@@ -32,7 +33,7 @@ const sidebarNavigation = [
   { name: 'Integrations', icon: ShareIcon, current: false, component: <IntegrationsPage />},
   { name: 'Endpoints', icon: RssIcon, current: false, component: <EndpointsPage />},
   { name: 'Models', icon: CubeTransparentIcon, current: false, component: <ModelsPage /> },
-  { name: 'Mapper', icon: WrenchScrewdriverIcon, current: true },
+  { name: 'Mapper', icon: WrenchScrewdriverIcon, current: true, component: <MapperPage /> },
   { name: 'Test', icon: BeakerIcon, current: false, component: null },
   { name: 'Sign out', icon: ArrowLeftOnRectangleIcon, current: false, component: null },
 ]
@@ -192,12 +193,9 @@ export default function App() {
 
           {/* Main content */}
           <div className="flex flex-1 items-stretch overflow-hidden">
-            <main className="flex-1 overflow-y-auto pt-1">
+            <main className="flex-1 overflow-y-auto">
               {/* Primary column */}
               <section aria-labelledby="primary-heading" className="flex h-full min-w-0 flex-1 flex-col lg:order-last">
-                <h1 id="primary-heading" className="sr-only">
-                  Photos
-                </h1>
                 { currentTab.component }
               </section>
             </main>
