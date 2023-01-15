@@ -2,7 +2,7 @@ import { Fragment, SVGProps, useEffect, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import {
   WrenchScrewdriverIcon,
-  Squares2X2Icon,
+  CubeTransparentIcon,
   BeakerIcon,
   XMarkIcon,
   ShareIcon,
@@ -31,7 +31,7 @@ type NavType = {
 const sidebarNavigation = [
   { name: 'Integrations', icon: ShareIcon, current: false, component: <IntegrationsPage />},
   { name: 'Endpoints', icon: RssIcon, current: false, component: <EndpointsPage />},
-  { name: 'Models', icon: Squares2X2Icon, current: false, component: <ModelsPage /> },
+  { name: 'Models', icon: CubeTransparentIcon, current: false, component: <ModelsPage /> },
   { name: 'Mapper', icon: WrenchScrewdriverIcon, current: true },
   { name: 'Test', icon: BeakerIcon, current: false, component: null },
   { name: 'Sign out', icon: ArrowLeftOnRectangleIcon, current: false, component: null },

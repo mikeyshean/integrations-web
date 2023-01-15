@@ -59,7 +59,7 @@ export default function AppHome() {
         <div className="p-5">
           <ol className="list-decimal">
             <li><b>Integrations:</b> Define an integration with a name, category, and a base/root domain for the API </li>
-            <li><b>Integrations {'->'} Endpoints:</b> Define specific API endpoints by their resource path and HTTP method. <br/><i>Note: For the scope of this POC, we will only consider the GET requests use case for data syncing.</i></li>
+            <li><b>Endpoints:</b> Define specific API endpoints by their resource path and HTTP method. <br/><i>Note: For the scope of this POC, we will only consider the GET requests use case for data syncing.</i></li>
             <li><b>Models:</b> Generate a Model from a sample JSON payload.  This will parse and define the Model&apos;s fields and data types to be used during mapping to the target model.</li>
             <li><b>Mapper:</b> <span className="text-red-600 italic">(Coming Soon)</span>  Here we will display the generated Model in the previous step.  
                 Based on the category that this Model&apos;s integration is associated with, you can pick which target

@@ -121,7 +121,7 @@ export default function CreateModelTab() {
       <div className="sm:flex-auto">
         <h1 className="text-2xl font-semibold text-gray-900">Create a Model from JSON</h1>
         <p className="mt-2 text-sm text-gray-700">
-          Use a real example of the JSON Payload you expect to receive from an endpoint to automatically generate a Model.
+          Use a real example of the JSON Payload you expect to receive from an endpoint to automatically generate a Model with parsed fields and data types.
         </p>
       </div>
       <div className="grid grid-cols-6 gap-6 overflow-auto pl-1">
