@@ -78,7 +78,7 @@ export const integationsRouter =  {
     return useMutation({ mutationKey: ['integrations', 'endpoints'], mutationFn: mutationFn })
   },
   
-  useGetIntegrationEndpoints:  ({id, ...args }: {id: number, [key: string]: any }) => {
+  useGetIntegrationEndpoints: ({id, ...args }: {id: number, [key: string]: any }) => {
     const queryFn = async () => { 
       const response = await fetcher(`/api/integrations/${id}/endpoints`)
       return EndpointsSchema.parse(response)
@@ -86,7 +86,7 @@ export const integationsRouter =  {
     return useQuery({ queryKey: ['integrations', id, 'endpoints'], queryFn: queryFn, ...args })
   },
   
-  useGetEndpointModels:  ({id, ...args }: {id: number, [key: string]: any }) => {
+  useGetEndpointModels: ({id, ...args }: {id: number, [key: string]: any }) => {
     const queryFn = async () => { 
       const response = await fetcher(`/api/endpoints/${id}/models`)
       return EndpointModelsSchema.parse(response)

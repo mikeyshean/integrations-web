@@ -101,7 +101,7 @@ export default function SourceModelForm({ onChange }: { onChange: (item: SelectI
   }, [selectedModel])
   
   return (
-    <div className="h-1/4 border flex flex-col">
+    <>
       <div className="w-full flex flex-col sm:flex-row">
         <div className="px-5 w-full sm:w-1/2">
           <Select selected={selectedCategory} items={categoryItems()} name="Category" isValid={isValidCategory} onChange={onCategoryChange} />
@@ -118,6 +118,6 @@ export default function SourceModelForm({ onChange }: { onChange: (item: SelectI
           <Select selected={selectedModel} items={modelItems()} name="Model" isValid={isValidModel} onChange={onModelChange} />
         </div>
       </div>
-    </div>
+    </>
   )
 }

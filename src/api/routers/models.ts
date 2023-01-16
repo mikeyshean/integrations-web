@@ -1,6 +1,6 @@
 import { fetcher } from "./fetcher";
 import { useQuery } from '@tanstack/react-query'
-import { ModelsSchema  } from "api/schema/models";
+import { ModelsSchema, ModelSchema  } from "api/schema/models";
 
 export const modelsRouter =  {
   useList: () => {
@@ -13,7 +13,16 @@ export const modelsRouter =  {
       }
     }
     return useQuery({ queryKey: ['models'], queryFn: queryFn })
-  }
+  },
+
+  useGetItem: ({id, ...args }: {id: number, [key: string]: any }) => {
+    const queryFn = async () => { 
+      const response = await fetcher(`/api/models/${id}`)
+      return ModelSchema.parse(response)
+    }
+    return useQuery({ queryKey: ['models', id], queryFn: queryFn, ...args })
+  },
+
 }
 
 
