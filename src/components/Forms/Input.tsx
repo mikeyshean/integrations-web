@@ -16,7 +16,7 @@ export function Input({
   
   return (
     <div>
-      <label htmlFor={name} className="block text-sm font-medium text-gray-700 mt-5">
+      <label htmlFor={name} className="block text-sm font-medium text-indigo-900 mt-5">
         {label}
       </label>
       <div className="relative mt-1 rounded-md shadow-sm">

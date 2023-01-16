@@ -9,7 +9,7 @@ export type PageType = {
 export default function Breadcrumbs({ pages, onClick }: { pages: PageType[], onClick: (idx: number) => void }) {
   
   return (
-    <nav className="flex border-b border-gray-200 bg-white" aria-label="Breadcrumb">
+    <nav className="flex bg-white" aria-label="Breadcrumb">
       <ol role="list" className="mx-auto flex w-full max-w-screen-xl space-x-4 pr-4 sm:pr-6 lg:pr-8">
         {pages.map((page, idx) => (
           <li key={page.id} className="flex">
@@ -17,13 +17,13 @@ export default function Breadcrumbs({ pages, onClick }: { pages: PageType[], onC
               
               <button
                 onClick={() => onClick(idx)}
-                className="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700"
+                className="ml-4 text-sm font-medium text-indigo-900 hover:text-indigo-500"
                 aria-current={page.current ? 'page' : undefined}
               >
                 {page.name}
               </button>
               <svg
-                className="h-full w-6 flex-shrink-0 text-gray-200"
+                className="h-full w-6 flex-shrink-0 text-indigo-300 "
                 viewBox="0 0 24 44"
                 preserveAspectRatio="none"
                 fill="currentColor"

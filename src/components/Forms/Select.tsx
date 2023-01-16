@@ -22,7 +22,7 @@ export function Select(
     <Listbox value={selected} onChange={onChange}>
       {({ open }) => (
         <>
-          <Listbox.Label className="block text-sm font-medium mt-5 text-gray-700">{name}</Listbox.Label>
+          <Listbox.Label className="block text-sm font-medium mt-5 text-indigo-900">{name}</Listbox.Label>
           <div className="relative mt-1">
           <Listbox.Button className={classNames(
             isValid ? "border-gray-300 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500" : "border-red-300 pr-10 text-red-900 placeholder-red-300 focus:border-red-500 focus:outline-none focus:ring-red-500",

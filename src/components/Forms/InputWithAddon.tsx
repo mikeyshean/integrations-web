@@ -16,7 +16,7 @@ export function InputWithAddon(
   
   return (
     <div className='mt-5'>
-      <label htmlFor="integration-domain" className="block text-sm font-medium text-gray-700">
+      <label htmlFor="integration-domain" className="block text-sm font-medium text-indigo-900">
         {label}
       </label>
 

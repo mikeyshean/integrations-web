@@ -26,7 +26,7 @@ export default function StackedCards({fields}: { fields: Field[]}) {
               <>
                 <span className="flex items-center">
                   <span className="flex flex-col text-sm">
-                    <RadioGroup.Label as="span" className="font-medium text-gray-900">
+                    <RadioGroup.Label as="span" className="font-medium text-gray-800">
                       {field.name}
                     </RadioGroup.Label>
                     <RadioGroup.Description as="span" className="text-gray-500">
@@ -44,8 +44,7 @@ export default function StackedCards({fields}: { fields: Field[]}) {
                   as="span"
                   className="mt-2 flex text-sm sm:mt-0 sm:ml-4 sm:flex-col sm:text-right"
                 >
-                  <span className="font-medium text-gray-900">{'Soemthing Else'}</span>
-                  <span className="ml-1 text-gray-500 sm:ml-0">/mo</span>
+                  <span className="font-medium text-gray-900">{'Mapped to: '}</span>
                 </RadioGroup.Description>
                 <span
                   className={classNames(
