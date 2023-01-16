@@ -1,27 +1,17 @@
 import { api } from "@/api";
 import Breadcrumbs, { PageType } from "@/components/Breadcrumbs";
-import { SelectItem } from "@/components/Forms/Select";
+import { EmptySelectItem, SelectItem } from "@/components/Forms/Select";
 import StackedCards from "screens/application/mapper/StackedCards";
 import { useEffect, useState } from "react";
 import SourceModelForm from "./SourceModelForm";
-import { Model } from "api/schema/models";
 import { classNames } from "@/components/utils";
 import { ChevronUpIcon, ChevronDownIcon } from "@heroicons/react/24/outline";
 
-const crumbs = [
-  { id: 0, name: 'Project 0', idx: 0, current: false },
-  { id: 1, name: 'Project 1', idx: 1, current: false },
-  { id: 2, name: 'Project 2', idx: 2, current: false },
-  { id: 3, name: 'Project 3', idx: 3, current: false },
-  { id: 4, name: 'Project 4', idx: 4, current: false },
-  { id: 5, name: 'Project 5', idx: 5, current: false },
-  { id: 6, name: 'Project 6', idx: 6, current: true },
-] 
 export default function MapperPage() {
-  const [modelItem, setModelItem ] = useState<SelectItem>({key: 0, value: ''})
-  const { data: model } = api.models.useGetItem({id: modelItem.key as number, enabled: !!modelItem.key})
+  const [selectedModel, setSelectedModel ] = useState<SelectItem>(EmptySelectItem)
   const [pages, setPages] = useState<PageType[]>([])
-  const [currentModel, setCurrentModel] = useState<Model>()
+  const [currentModel, setCurrentModel] = useState<{id: number, name: string}>({ id: selectedModel.key as number, name: selectedModel.value })
+  const { data: currentModelData } = api.models.useGetItem({id: currentModel.id, enabled: !!currentModel.id})
   const [show, setShow] = useState(true)
 
 
@@ -30,8 +20,8 @@ export default function MapperPage() {
   }
 
   function breadcrumbPages() {
-    if (pages.length === 0 && model) {
-      setPages([{id: model.id, name: model.name, idx: 0, current: true}])
+    if (pages.length === 0 && currentModelData) {
+      setPages([{id: currentModelData.id, name: currentModelData.name, idx: 0, current: true}])
     }
     return pages
   }
@@ -40,9 +30,25 @@ export default function MapperPage() {
     setShow(!show)
   }
 
+  function fieldObjectOnClick(model: {id: number, name: string}) {
+    setPages(prev => {
+      if (prev[prev.length - 1]) {
+        prev[prev.length - 1].current = false
+      }
+      return [...prev, {id: model.id, name: model.name, idx: prev.length, current: true}]
+    })
+  }
+
   useEffect(() => {
-    setCurrentModel(model)
-  }, [model])
+    setCurrentModel({id: selectedModel.key as number, name: selectedModel.value})
+  }, [selectedModel])
+  
+  useEffect(() => {
+    const lastPage = pages[pages.length - 1]
+    if (lastPage) {
+      setCurrentModel({ id: lastPage.id, name: lastPage.name })
+    }
+  }, [pages])
   
   return (
     <div className="flex flex-col sm:flex-row flex-start overflow-hidden h-full">
@@ -62,19 +68,19 @@ export default function MapperPage() {
           <div className={classNames(
             show ? "" : "hidden",
             "max-h-1/4 border rounded-lg rounded-t-none border-indigo-300 border-t-0 bg-indigo-50 flex flex-col p-5 pt-0 mb-2")}>
-            <SourceModelForm onChange={setModelItem}/>
+            <SourceModelForm onChange={setSelectedModel}/>
           </div>
           
           {/* Bread Crumbs */}
           <div className={classNames(
-            currentModel ? "" : "hidden",
+            currentModelData ? "" : "hidden",
             "text-center p-2 border border-indigo-700 rounded-lg rounded-b-none border-b bg-indigo-700 text-white"
             )}>
             Model
           </div>
           <div>
             <div className={classNames(
-              currentModel ? "" : "hidden",
+              currentModelData ? "" : "hidden",
               "overflow-x-scroll border-indigo-300 border rounded-lg rounded-t-none border-t-0 mb-2"
               )}>
               <Breadcrumbs pages={breadcrumbPages()} onClick={handleBreadcrumbOnClick}/>
@@ -83,7 +89,7 @@ export default function MapperPage() {
 
           
           <div className={classNames(
-            currentModel ? "" : "hidden",
+            currentModelData ? "" : "hidden",
             "text-center p-2 border border-indigo-700 rounded-lg rounded-b-none border-b bg-indigo-700 text-white"
             )}>
             Fields
@@ -91,11 +97,11 @@ export default function MapperPage() {
 
           {/* Field List */}
           <div className={classNames(
-            currentModel ? "" : "hidden",
+            currentModelData ? "" : "hidden",
             "flex-grow flex flex-col overflow-hidden border border-t-0 rounded-lg rounded-t-none border-indigo-300 bg-indigo-50"
             )}>
-            <div className="overflow-y-auto">
-              <StackedCards fields={currentModel?.fields || []}/>
+            <div className="overflow-y-auto py-3">
+              <StackedCards fields={currentModelData?.fields || []} onClick={fieldObjectOnClick} />
             </div>
           </div>
         </div>
