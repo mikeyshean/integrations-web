@@ -17,11 +17,13 @@ export default function MapperPage() {
 
   function handleBreadcrumbOnClick(idx: number) {
     setPages(prev => prev.slice(0, idx+1))
+    const currentPage = pages[idx]
+    setCurrentModel({ id: currentPage.id, name: currentPage.name })
   }
 
   function breadcrumbPages() {
     if (pages.length === 0 && currentModelData) {
-      setPages([{id: currentModelData.id, name: currentModelData.name, idx: 0, current: true}])
+      setPages([{ id: currentModelData.id, name: currentModelData.name, idx: 0 }])
     }
     return pages
   }
@@ -31,21 +33,17 @@ export default function MapperPage() {
   }
 
   function fieldObjectOnClick(model: {id: number, name: string}) {
-    setPages(prev => [...prev, {id: model.id, name: model.name, idx: prev.length, current: true}])
+    setPages(prev => [...prev, { id: model.id, name: model.name, idx: prev.length }])
+    setCurrentModel({ id: model.id, name: model.name })
   }
 
   useEffect(() => {
     if (selectedModel.key) {
       setCurrentModel({id: selectedModel.key as number, name: selectedModel.value})
+      setPages([{ id: selectedModel.key as number, name: selectedModel.value, idx: 0 }])
+      setShow(false)
     }
   }, [selectedModel])
-  
-  useEffect(() => {
-    const lastPage = pages[pages.length - 1]
-    if (lastPage) {
-      setCurrentModel({ id: lastPage.id, name: lastPage.name })
-    }
-  }, [pages])
   
   return (
     <div className="flex flex-col sm:flex-row flex-start overflow-hidden h-full">

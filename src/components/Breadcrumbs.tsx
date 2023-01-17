@@ -3,7 +3,6 @@ import { classNames } from "./utils"
 export type PageType = {
   id: number,
   name: string,
-  current: boolean
   idx: number,
 }
 
