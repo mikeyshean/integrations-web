@@ -2,7 +2,7 @@ import { Select, SelectItem, EmptySelectItem } from "@/components/Forms/Select";
 import { api } from '@/api'
 import { useEffect, useState } from "react";
 
-export default function SourceModelForm({ onChange }: { onChange: (item: SelectItem) => void }) {
+export default function SourceModelForm({ modelOnChange, endpointOnChange }: { modelOnChange: (item: SelectItem) => void, endpointOnChange: (integrationName: string, endpointPath: string, endpointethod: string) => void }) {
   // Integrations
   const { data: integrations } = api.integrations.useList()
   const [selectedIntegration, setSelectedIntegration] = useState<SelectItem>(EmptySelectItem)
@@ -90,14 +90,25 @@ export default function SourceModelForm({ onChange }: { onChange: (item: SelectI
 
   useEffect(() => {
     const selectedEndpointId = selectedEndpoint.key
-    const endpoint = endpointModels?.find(item => item.id === selectedEndpointId)
-    if (endpoint?.model?.id !== selectedModel.key) {
+    const endpointModel = endpointModels?.find(item => item.id === selectedEndpointId)
+    if (endpointModel?.model?.id !== selectedModel.key) {
       setSelectedModel(EmptySelectItem)
+    }
+
+    // Not in love with the form needing to pass state back up to the main SourceModelPage to
+    // render the form title, but this component is already very complicated with all the 
+    // select filtering.
+    // TODO: Create a new component SourceModelForm that includes the title as a component
+    // and this comp. renamed as SourceModelFormFields. SourceModelForm will encapsulate
+    // all the Title state handling and rendering SourceModelFormFields
+    const endpoint = endpoints?.find(item => item.id === selectedEndpointId)
+    if (endpoint) {
+      endpointOnChange(endpoint?.integration.name, endpoint?.path, endpoint?.method)
     }
   }, [selectedEndpoint])
   
   useEffect(() => {
-    onChange(selectedModel)
+    modelOnChange(selectedModel)
   }, [selectedModel])
   
   return (

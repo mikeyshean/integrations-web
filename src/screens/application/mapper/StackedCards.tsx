@@ -24,31 +24,29 @@ export default function StackedCards({ fields, onClick }: { fields: Field[], onC
             }
           >
             {({ active, checked }) => (
-              <>
-                <span className="flex items-center w-1/4">
-                  <span className="flex flex-col text-sm">
-                    <RadioGroup.Description as="span" className="text-gray-500">
-                      <span className="block">
-                        {field.type} { field.type === "LIST" ? ' ['+field.listItemType+']' : ''}
-                      </span>
-                      <span className="block">{field.objectModel?.name}</span>
-                    </RadioGroup.Description>
-                    
+              <div className='flex w-full'>
+                
+                <RadioGroup.Label as="span" className="w-1/4 flex flex-col text-gray-500">
+                  <span className='pb-2'>Field</span>
+                  <span className='font-medium text-gray-800'>
+                    {field.name}
                   </span>
-                </span>
+                </RadioGroup.Label>
 
-                <span className="flex items-center justify-center w-1/2">
-                  <RadioGroup.Label as="span" className="font-medium text-gray-800">
-                    {field.name} {field.objectModel?.id ? <ChevronDownIcon onClick={() => onClick( field.objectModel!) } className="h-5 w-5 text-indigo-700 inline" aria-hidden="true" /> : ''}
-                  </RadioGroup.Label>
-                </span>
+                <RadioGroup.Description as="span" className="w-1/2 flex flex-col text-center text-gray-500">
+                  <span className='pb-2'>Type</span>
+                  <span className="font-medium text-gray-800">
+                    {field.type} { field.type === "LIST" ? ' ['+field.listItemType+']' : ''}
+                    {field.objectModel?.id ? <ChevronDownIcon onClick={() => onClick( field.objectModel!) } className="h-5 w-5 text-indigo-700 inline" aria-hidden="true" /> : ''}
+                  </span>
+                </RadioGroup.Description>
 
 
                 <RadioGroup.Description
                   as="span"
-                  className="mt-2 flex w-1/4 text-sm sm:mt-0 sm:ml-4 sm:flex-col sm:text-right"
+                  className="flex w-1/4 sm:mt-0 sm:ml-4 sm:flex-col sm:text-right text-gray-500"
                 >
-                  <span className="font-medium text-gray-900">{'Mapped to: '}</span>
+                  <span className="pb-2">{'Target Field'}</span>
                 </RadioGroup.Description>
                 <span
                   className={classNames(
@@ -58,7 +56,7 @@ export default function StackedCards({ fields, onClick }: { fields: Field[], onC
                   )}
                   aria-hidden="true"
                 />
-              </>
+              </div>
             )}
           </RadioGroup.Option>
         ))}
