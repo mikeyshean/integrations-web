@@ -4,7 +4,7 @@ import { classNames } from '@/components/utils'
 import { Field } from 'api/schema/models'
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
 
-export default function StackedCards({ fields, onClick }: { fields: Field[], onClick: ({id, name}: {id: number, name: string }) => void }) {
+export default function StackedCards({ fields, onClick, isSource }: { fields: Field[], onClick: ({id, name}: {id: number, name: string }) => void, isSource: boolean }) {
   const [selected, setSelected] = useState<Field>(fields[0])
 
   return (
@@ -46,7 +46,7 @@ export default function StackedCards({ fields, onClick }: { fields: Field[], onC
                   as="span"
                   className="flex w-1/4 sm:mt-0 sm:ml-4 sm:flex-col sm:text-right text-gray-500"
                 >
-                  <span className="pb-2">{'Target Field'}</span>
+                  <span className="pb-2">{isSource ? 'Target Field' : ''}</span>
                 </RadioGroup.Description>
                 <span
                   className={classNames(

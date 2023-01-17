@@ -8,13 +8,13 @@ export type SelectItem = {key: string|number, value: string }
 export const EmptySelectItem = {key: 0, value: '' }
 
 export function Select(
-  { selected, onChange, items, name, isValid, children }:
+  { selected, onChange, items, name, isValid = true, children }:
   {
     selected: SelectItem,
     onChange: (item: SelectItem) => void,
     items: SelectItem[],
     name: string,
-    isValid: boolean,
+    isValid?: boolean,
     children?: React.ReactNode
   }) {
   

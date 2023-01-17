@@ -1,19 +1,19 @@
 import { api } from "@/api";
 import Breadcrumbs, { PageType } from "@/components/Breadcrumbs";
+import { EmptySelectItem } from "@/components/Forms/Select";
 import StackedCards from "screens/application/mapper/StackedCards";
 import { useEffect, useState } from "react";
-import SourceModelForm from "./SourceModelForm";
+import TargetModelForm from "./TargetModelForm";
 import { classNames } from "@/components/utils";
 import { ChevronUpIcon, ChevronDownIcon } from "@heroicons/react/24/outline";
 import { useMapperContext } from "./context";
 
-export default function SourceModelPage() {
-  const { ctxSourceModel, ctxEndpoint, ctxIntegration } = useMapperContext()
+export default function TargetModelPage() {
+  const { ctxTargetModel, setCtxTargetModel, ctxSourceModel } = useMapperContext()
   const [pages, setPages] = useState<PageType[]>([])
-  const [currentFieldModel, setCurrentFieldModel] = useState<{id: number, name: string}>({ id: ctxSourceModel.key as number, name: ctxSourceModel.value })
+  const [currentFieldModel, setCurrentFieldModel] = useState<{id: number, name: string}>({ id: ctxTargetModel.key as number, name: ctxTargetModel.value })
   const { data: currentModelData, isFetching } = api.models.useGetItem({id: currentFieldModel.id, enabled: !!currentFieldModel.id})
-  const [show, setShow] = useState(true)
-  const [formTitle, setFormTitle] = useState('')
+  const [show, setShow] = useState(false)
   const [fieldsListTitle, setFieldsListTitle] = useState('')
 
 
@@ -39,23 +39,30 @@ export default function SourceModelPage() {
     setCurrentFieldModel({ id: model.id, name: model.name })
   }
 
-  function endpointOnChange(integrationName: string, endpointPath: string, endpointMethod: string) {
-    setFormTitle(endpointMethod+' '+endpointPath+' ('+integrationName+')')
-  }
-
   useEffect(() => {
-    if (ctxSourceModel.key) {
-      setCurrentFieldModel({id: ctxSourceModel.key as number, name: ctxSourceModel.value})
-      setPages([{ id: ctxSourceModel.key as number, name: ctxSourceModel.value, idx: 0 }])
+    if (ctxTargetModel.key) {
+      setCurrentFieldModel({id: ctxTargetModel.key as number, name: ctxTargetModel.value})
+      setPages([{ id: ctxTargetModel.key as number, name: ctxTargetModel.value, idx: 0 }])
       setShow(false)
-
-      setFormTitle(ctxEndpoint.value+' ('+ctxIntegration.value+')')
+    } else {
+      setCurrentFieldModel({ id: 0 as number, name: '' })
+      setPages([])
+      setShow(false)
     }
-  }, [ctxSourceModel])
+  }, [ctxTargetModel])
 
   useEffect(() => {
     setFieldsListTitle('Fields for '+ currentFieldModel.name)
   }, [currentFieldModel])
+  
+  useEffect(() => {
+    if (ctxSourceModel.key) {
+      setShow(true)
+    } else {
+      setShow(false)
+      setCtxTargetModel(EmptySelectItem)
+    }
+  }, [ctxSourceModel])
 
   return (
     <>
@@ -63,17 +70,18 @@ export default function SourceModelPage() {
       {/* Select Source Model Form */}
       <div className={classNames(
         show ? "rounded-b-none" : "mb-2",
-        "text-center p-2 border border-indigo-700 rounded-lg border-b bg-indigo-700 text-white"
+        ctxSourceModel.key ? "bg-indigo-700 border-indigo-700" : "bg-gray-300 border-gray-300",
+        "text-center p-2 border rounded-lg border-b  text-white"
         )}>
-        {show || !formTitle || !currentFieldModel.id ? "Select Source Model" : formTitle}
-        <button className="float-right" onClick={toggleForm}>
+        {"Select Target Model"}
+        <button className="float-right" disabled={!ctxSourceModel.key} onClick={toggleForm}>
           { show ? <ChevronUpIcon className="h-5 w-5 text-white" aria-hidden="true" /> : <ChevronDownIcon className="h-5 w-5 text-white" aria-hidden="true" />}
         </button>
       </div>
       <div className={classNames(
         show ? "" : "hidden",
         "max-h-1/4 border rounded-lg rounded-t-none border-indigo-300 border-t-0 bg-indigo-50 flex flex-col p-5 pt-0 mb-2")}>
-        <SourceModelForm />
+        <TargetModelForm />
       </div>
       
       {/* Bread Crumbs */}
@@ -81,7 +89,7 @@ export default function SourceModelPage() {
         currentModelData || isFetching ? "" : "hidden",
         "text-center p-2 border border-indigo-700 rounded-lg rounded-b-none border-b bg-indigo-700 text-white"
         )}>
-        Source Model
+        Target Model
       </div>
       <div>
         <div className={classNames(
@@ -106,7 +114,7 @@ export default function SourceModelPage() {
         )}>
         <div className="overflow-y-auto py-3">
           {currentModelData?.fields && currentModelData.fields.length > 0 && 
-            <StackedCards fields={currentModelData.fields} onClick={fieldObjectOnClick} isSource={true}/>
+            <StackedCards fields={currentModelData.fields} onClick={fieldObjectOnClick} isSource={false}/>
           }
         </div>
       </div>
