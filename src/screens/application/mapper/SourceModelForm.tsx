@@ -36,7 +36,7 @@ export default function SourceModelForm() {
   }
   
   function modelItems() {
-    return endpointModels?.map((endpoint) => { return {key: endpoint.model!.id, value: endpoint.model!.name }}) || []
+    return endpointModels?.filter(endpoint => endpoint.model?.id).map((endpoint) => { return {key: endpoint.model!.id, value: endpoint.model!.name }}) || []
   }
 
   function onCategoryChange(item: SelectItem) {

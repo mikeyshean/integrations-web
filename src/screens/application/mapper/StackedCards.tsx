@@ -46,7 +46,7 @@ export default function StackedCards({ fields, onClick, isSource }: { fields: Fi
                   as="span"
                   className="flex w-1/4 sm:mt-0 sm:ml-4 sm:flex-col sm:text-right text-gray-500"
                 >
-                  <span className="pb-2">{isSource ? 'Target Field' : ''}</span>
+                  <span className="pb-2">{isSource ? 'Target' : 'Source'} Field</span>
                 </RadioGroup.Description>
                 <span
                   className={classNames(
