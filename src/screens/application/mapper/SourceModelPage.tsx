@@ -50,6 +50,8 @@ export default function SourceModelPage() {
       setShow(false)
 
       setFormTitle(ctxEndpoint.value+' ('+ctxIntegration.value+')')
+    } else {
+      setCurrentFieldModel({ id: 0, name: '' })
     }
   }, [ctxSourceModel])
 
